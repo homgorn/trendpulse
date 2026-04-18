@@ -9,7 +9,7 @@ og:description: Превращаем рыночный шум в успешные
 og:type: website
 og:url: https://homgorn.github.io/trendpulse/
 og:locale: ru_RU
-og:image: https://homgorn.github.io/trendpulse/og-image.png
+og:image: https://homgorn.github.io/trendpulse/og-image.svg
 twitter:card: summary_large_image
 twitter:title: TrendPulse — ИИ для игровой индустрии
 twitter:description: Превращаем рыночный шум в успешные игры

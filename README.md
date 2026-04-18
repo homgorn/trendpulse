@@ -9,7 +9,7 @@ og:description: Turn market noise into successful games with AI-driven trend det
 og:type: website
 og:url: https://homgorn.github.io/trendpulse/
 og:locale: en_US
-og:image: https://homgorn.github.io/trendpulse/og-image.png
+og:image: https://homgorn.github.io/trendpulse/og-image.svg
 twitter:card: summary_large_image
 twitter:title: TrendPulse — AI for Gaming Market Intelligence
 twitter:description: Turn market noise into successful games
