@@ -41,5 +41,6 @@ jobs:
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --frozen
       - run: uv pip audit
+      - run: uv run bandit -r src/
       - uses: github/codeql-action/init@v3
       - uses: github/codeql-action/analyze@v3
