@@ -1,55 +1,46 @@
 ---
-title: TrendPulse — AI-Driven Market Intelligence Platform for Gaming Studios
-description: TrendPulse is an open-source AI platform for game studios to discover market trends and generate game concepts. Features multi-provider LLM routing, RAG-based retrieval, and production-ready infrastructure.
+title: TrendPulse — AI Market Intelligence for Gaming Studios
+description: TrendPulse is an open-source AI platform for game studios to discover market trends and generate game concepts. Features multi-provider LLM routing, RAG, circuit breaker, production-ready.
 keywords: game development, market intelligence, AI gaming, trend analysis, game design, LLM, GDD generator, gaming trends, AI platform
 author: TrendPulse Team
 robots: index, follow
 og:title: TrendPulse — AI for Gaming Market Intelligence
 og:description: Turn market noise into successful games with AI-driven trend detection and game concept generation.
 og:type: website
-og:url: https://trendpulse.github.io/trendpulse/
+og:url: https://homgorn.github.io/trendpulse/
 og:locale: en_US
-og:image: https://trendpulse.github.io/trendpulse/og-image.png
+og:image: https://homgorn.github.io/trendpulse/og-image.png
 twitter:card: summary_large_image
 twitter:title: TrendPulse — AI for Gaming Market Intelligence
 twitter:description: Turn market noise into successful games
 ---
 
-# TrendPulse — AI-Driven Market Intelligence Platform
+# TrendPulse — AI Market Intelligence for Gaming
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.2.0-blue.svg" alt="Version">
-  <img src="https://img.shields.io/badge/python-3.11%2B-green.svg" alt="Python">
-  <img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="License">
-  <img src="https://img.shields.io/badge/status-Production%20Ready-brightgreen.svg" alt="Status">
+  <a href="https://pypi.org/project/trendpulse/"><img src="https://img.shields.io/badge/version-0.2.0-blue.svg" alt="Version"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.11%2B-green.svg" alt="Python"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="License"></a>
+  <a href="https://github.com/homgorn/trendpulse/actions"><img src="https://img.shields.io/badge/status-Production%20Ready-brightgreen.svg" alt="Status"></a>
 </p>
 
-## What is TrendPulse?
+**TrendPulse** is an open-source AI platform for game studios to discover market trends and generate game concepts. Features multi-provider LLM routing (OpenRouter, Gemini), RAG-based retrieval, circuit breaker, rate limiting.
 
-**TrendPulse** is an open-source AI-driven platform designed for game studios to discover market trends and generate innovative game concepts. It transforms market intelligence into actionable game ideas through advanced LLM routing and retrieval-augmented generation (RAG).
+| [English](README.md) | [Русский](README-RU.md) | [Docs](docs/) | [Investors](investors/) | [GitHub](https://github.com/homgorn/trendpulse) |
 
-### Key Capabilities
+## Quick Start
 
-- **AI Trend Detection** — Monitor trends across social media, crypto, gaming, and adjacent industries
-- **Game Concept Generator** — Create marketable game ideas with audience analysis, monetization strategies, and risk assessment
-- **Multi-Provider LLM Routing** — Automatic fallback between OpenRouter, Gemini, and other providers
-- **RAG-Based Retrieval** — Semantic search over trend data using vector embeddings
-- **Production Ready** — Circuit breakers, rate limiting, retry logic, and observability built-in
+```bash
+pip install trendpulse
+export OPENROUTER_API_KEY=your_key
+trendpulse generate --theme "battle royale" --platform mobile
+```
 
----
+Or with Docker:
 
-## Table of Contents
-
-1. [Features](#features)
-2. [Architecture](#architecture)
-3. [Quick Start](#quick-start)
-4. [API Reference](#api-reference)
-5. [CLI Usage](#cli-usage)
-6. [Configuration](#configuration)
-7. [Deployment](#deployment)
-8. [Monitoring](#monitoring)
-9. [Contributing](#contributing)
-10. [License](#license)
+```bash
+docker run -p 8000:8000 -e OPENROUTER_API_KEY=your_key ghcr.io/homgorn/trendpulse:latest
+```
 
 ---
 
@@ -70,47 +61,25 @@ twitter:description: Turn market noise into successful games
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        TrendPulse Architecture                   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐      │
-│  │   REST API   │───▶│   Service    │───▶│  LLM Gateway │      │
-│  │   (FastAPI)  │    │  (Business  │    │ (Routing +   │      │
-│  └──────────────┘    │   Logic)     │    │  Fallback)   │      │
-│                      └──────────────┘    └──────┬───────┘      │
-│                                                   │             │
-│  ┌───────────────────────────────────────────────┼──────────┐  │
-│  │                  Adapters Layer                │          │  │
-│  │  ┌──────────────────┐    ┌─────────────────┐  │          │  │
-│  │  │ OpenRouter Backend│    │ Gemini Backend │◀─┘          │  │
-│  │  └──────────────────┘    └─────────────────┘             │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐      │
-│  │   Metrics    │    │Rate Limiter  │    │   Logging    │      │
-│  │  (Prometheus)│    │ (In-Memory)  │    │  (JSON +     │      │
-│  │              │    │              │    │   Trace ID)  │      │
-│  └──────────────┘    └──────────────┘    └──────────────┘      │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   REST API   │--->│   Service   │--->│  LLM Gateway│
+│   (FastAPI)  │    │  (Business  │    │ (Routing +   │
+└──────────────┘    │   Logic)     │    │  Fallback)   │
+                    └──────────────┘    └──────┬───────┘
+                                           │
+         ┌────────────────────────────────────┼────────────┐
+         │         Adapters Layer              │
+         │  ┌──────────────┐    ┌───────────┐│
+         │  │ OpenRouter   │    │   Gemini  ││
+         │  └──────────────┘    └───────────┘│
+         └────────────────────────────────────┘
 ```
 
-### Core Components
-
-- **API Layer** (`api.py`) — FastAPI application with lifespan, middleware, and routes
-- **Service Layer** (`service.py`) — Business logic, prompt template, JSON parsing
-- **Gateway** (`gateway.py`) — LLM routing, circuit breaker, retry logic, fallback
-- **Adapters** — Abstract backend interface with OpenRouter and Gemini implementations
-- **Infrastructure** — Metrics, rate limiting, logging with trace ID support
+**Core**: API (`api.py`), Service (`service.py`), Gateway (`gateway.py`), Adapters (OpenRouter, Gemini)
 
 ---
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.11 or higher
+## Install
 - pip or uv package manager
 - API keys for at least one LLM provider
 
