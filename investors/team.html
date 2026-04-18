@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team | TrendPulse</title>
+    <meta name="description" content="TrendPulse founding team. Experienced gaming industry and AI/ML professionals. Meet the founders behind AI for gaming.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 40px; text-align: center; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 30px 0; }
+        .member-card { background: white; padding: 30px; border-radius: 16px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .member-card .avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; color: white; }
+        .member-card h3 { color: #333; margin-bottom: 5px; }
+        .member-card .role { color: #2563eb; font-weight: bold; margin-bottom: 15px; }
+        .member-card .bio { color: #666; font-size: 14px; margin-bottom: 15px; }
+        .member-card .experience { font-size: 13px; color: #888; }
+        .advisors { background: white; padding: 30px; border-radius: 16px; margin: 30px 0; }
+        .advisors ul { list-style: none; }
+        .advisors li { padding: 15px 0; border-bottom: 1px solid #eee; }
+        .nav { position: fixed; top: 20px; right: 20px; background: white; padding: 10px; border-radius: 8px; }
+        .nav a { color: #2563eb; text-decoration: none; margin: 0 10px; }
+        @media (max-width: 768px) { .team-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">← Back</a>
+        <a href="pitch.html">Pitch</a>
+    </div>
+    
+    <header>
+        <h1>👥 Founding Team</h1>
+        <p>Gaming industry veterans + AI/ML expertise</p>
+    </header>
+    
+    <div class="container">
+        <div class="team-grid">
+            <div class="member-card">
+                <div class="avatar">👤</div>
+                <h3>[Founder Name]</h3>
+                <div class="role">CEO & Founder</div>
+                <div class="bio">10+ years in gaming industry. Led development at major game studio. Passionate about helping indie devs succeed.</div>
+                <div class="experience">Ex-[Studio] | 2 shipped titles | CS degree</div>
+            </div>
+            
+            <div class="member-card">
+                <div class="avatar">👤</div>
+                <h3>[Co-Founder Name]</h3>
+                <div class="role">CTO & Co-Founder</div>
+                <div class="bio">8+ years in AI/ML. Ex-Google engineer. Core contributor to FastAPI. Built production ML systems at scale.</div>
+                <div class="experience">Ex-Google | FastAPI core | PhD AI</div>
+            </div>
+            
+            <div class="member-card">
+                <div class="avatar">👤</div>
+                <h3>[Advisor Name]</h3>
+                <div class="role">Board Advisor</div>
+                <div class="bio">Serial entrepreneur with 3 successful exits totaling $50M+. Active angel investor in gaming and AI.</div>
+                <div class="experience">3 exits | 20+ investments | Gaming background</div>
+            </div>
+        </div>
+        
+        <div class="advisors">
+            <h2>🤝 Advisory Board</h2>
+            <ul>
+                <li><strong>Gaming Industry Advisor:</strong> Former VP at major publisher - market strategy</li>
+                <li><strong>AI/ML Advisor:</strong> Research scientist at top AI lab - technical direction</li>
+                <li><strong>Startup Advisor:</strong> 2x YC founder - scaling & fundraising</li>
+            </ul>
+        </div>
+        
+        <div class="advisors">
+            <h2>🎯 Open Positions</h2>
+            <ul>
+                <li><strong>Full-stack Engineer:</strong> Remote, competitive equity + salary</li>
+                <li><strong>ML Engineer:</strong> LLM fine-tuning experience preferred</li>
+                <li><strong>Growth Lead:</strong> Developer marketing experience</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
