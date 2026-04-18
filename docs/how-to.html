@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How To Use - TrendPulse Documentation</title>
+    <meta name="description" content="Practical guides and tutorials for using TrendPulse AI platform. Examples for developers.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/how-to.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        h3 { color: #333; margin: 25px 0 15px; font-size: 20px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #1a1a2e; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; padding: 0; }
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin-bottom: 10px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        .guide { background: #f9f9f9; border-radius: 12px; padding: 25px; margin: 25px 0; }
+        .guide-number { display: inline-block; width: 40px; height: 40px; background: #2563eb; color: white; border-radius: 50%; text-align: center; line-height: 40px; font-weight: bold; margin-right: 15px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>📝 How To Use TrendPulse</h1>
+            <p>Practical guides for common use cases</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="getting-started.html">← Getting Started</a>
+            <a href="api-reference.html">API Reference →</a>
+        </div>
+        
+        <h2>Quick Start Guides</h2>
+        
+        <div class="guide">
+            <h3><span class="guide-number">1</span>Generate Your First Game Concept</h3>
+            <p>Learn how to generate a game idea in 3 simple steps.</p>
+            
+            <ol>
+                <li><strong>Start the server:</strong> <code>uvicorn trendpulse.api:app --reload</code></li>
+                <li><strong>Send a request:</strong></li>
+            </ol>
+            <pre><code>curl -X POST http://127.0.0.1:8100/v1/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "theme": "space exploration",
+    "platform": "mobile",
+    "region": "global",
+    "budget_mode": "balanced",
+    "task_type": "creative"
+  }'</code></pre>
+            
+            <ol start="3">
+                <li><strong>Receive your game concept:</strong> The API returns a complete idea with audience, monetization, risks, and sources.</li>
+            </ol>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">2</span>Use Python SDK</h3>
+            <p>Integrate TrendPulse into your Python application.</p>
+            
+            <pre><code>import requests
+
+def generate_game_concept(theme, platform):
+    response = requests.post(
+        "http://127.0.0.1:8100/v1/generate",
+        json={
+            "theme": theme,
+            "platform": platform,
+            "budget_mode": "balanced",
+            "task_type": "creative"
+        }
+    )
+    return response.json()
+
+# Generate 10 game ideas
+themes = ["ai tools", "crypto", "fantasy", "horror", "sports"]
+for theme in themes:
+    result = generate_game_concept(theme, "mobile")
+    print(f"{theme}: {result['idea'][:100]}...")</code></pre>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">3</span>Batch Generation</h3>
+            <p>Generate multiple game concepts for comparison.</p>
+            
+            <pre><code>import asyncio
+import aiohttp
+
+async def generate_batch(themes):
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for theme in themes:
+            payload = {
+                "theme": theme,
+                "platform": "mobile",
+                "task_type": "creative"
+            }
+            tasks.append(session.post(
+                "http://127.0.0.1:8100/v1/generate",
+                json=payload
+            ))
+        
+        responses = await asyncio.gather(*tasks)
+        return [await r.json() for r in responses]
+
+# Generate 5 concepts at once
+themes = ["ai tools", "crypto", "fantasy", "horror", "sports"]
+results = asyncio.run(generate_batch(themes))
+
+for r in results:
+    print(f"Theme: {r.get('idea', 'N/A')[:50]}...")
+    print(f"Provider: {r['provider']}\n")</code></pre>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">4</span>Use Low-Cost Mode</h3>
+            <p>Reduce API costs by using cheaper models.</p>
+            
+            <pre><code># Set budget_mode to "low_cost" to use cheaper models
+response = requests.post(
+    "http://127.0.0.1:8100/v1/generate",
+    json={
+        "theme": "ai tools",
+        "platform": "mobile",
+        "budget_mode": "low_cost",  # Uses Gemini Flash
+        "task_type": "creative"
+    }
+)</code></pre>
+            
+            <p><strong>Effect:</strong> Switches to gemini-2.0-flash for cost optimization.</p>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">5</span>Custom Analysis Mode</h3>
+            <p>Get deeper analysis instead of creative ideas.</p>
+            
+            <pre><code># Use task_type for different output styles
+response = requests.post(
+    "http://127.0.0.1:8100/v1/generate",
+    json={
+        "theme": "mobile gaming trends 2024",
+        "platform": "mobile",
+        "task_type": "analysis"  # or "reasoning"
+    }
+)
+
+# Options:
+# - creative: Generate new game ideas
+# - analysis: Analyze market data
+# - reasoning: Deep logical analysis</code></pre>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">6</span>Add Custom Headers</h3>
+            <p>Track requests with custom trace IDs.</p>
+            
+            <pre><code>import uuid
+
+trace_id = str(uuid.uuid4())
+headers = {
+    "Content-Type": "application/json",
+    "x-trace-id": trace_id
+}
+
+response = requests.post(
+    "http://127.0.0.1:8100/v1/generate",
+    json={"theme": "ai", "platform": "mobile"},
+    headers=headers
+)
+
+print(f"Trace ID: {trace_id}")
+print(f"Response: {response.json()}")</code></pre>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">7</span>Deploy with Docker</h3>
+            <p>Run TrendPulse in a container.</p>
+            
+            <pre><code># Build the image
+docker build -t trendpulse:latest .
+
+# Run with environment variables
+docker run --rm -p 8100:8100 \
+  -e OPENROUTER_API_KEY=sk-or-... \
+  -e GEMINI_API_KEY=... \
+  trendpulse:latest</code></pre>
+        </div>
+        
+        <div class="guide">
+            <h3><span class="guide-number">8</span>Monitor with Prometheus</h3>
+            <p>Track metrics and performance.</p>
+            
+            <pre><code># Get metrics
+curl http://127.0.0.1:8100/metrics
+
+# Example metrics:
+# trendpulse_requests_total
+# trendpulse_requests_success_total
+# trendpulse_requests_error_total
+# trendpulse_provider_openrouter_latency_ms_sum</code></pre>
+        </div>
+        
+        <h2>Advanced Topics</h2>
+        <ul>
+            <li><a href="#">Custom LLM Backend</a> — Add your own provider</li>
+            <li><a href="#">Circuit Breaker Configuration</a> — Tune resilience settings</li>
+            <li><a href="#">Rate Limiting Setup</a> — Configure limits for your use case</li>
+            <li><a href="#">OpenTelemetry Integration</a> — Distributed tracing</li>
+        </ul>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="getting-started.html">← Getting Started</a>
+            <a href="api-reference.html">API Reference →</a>
+        </div>
+    </div>
+</body>
+</html>

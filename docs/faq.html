@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - TrendPulse Documentation</title>
+    <meta name="description" content="Frequently Asked Questions about TrendPulse AI platform. Troubleshooting, pricing, integration, and more.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/faq.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        p { margin-bottom: 15px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        details { margin-bottom: 20px; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; cursor: pointer; }
+        summary { font-weight: bold; font-size: 18px; cursor: pointer; }
+        summary:hover { color: #2563eb; }
+        .category { margin: 30px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>❓ Frequently Asked Questions</h1>
+            <p>Common questions and answers</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="getting-started.html">← Getting Started</a>
+            <a href="api-reference.html">API Reference →</a>
+        </div>
+        
+        <div class="category">
+            <h2>General</h2>
+            
+            <details>
+                <summary>What is TrendPulse?</summary>
+                <p>TrendPulse is an open-source AI-driven platform for game studios to discover market trends and generate game concepts. It helps turn market noise into successful games by analyzing trends across multiple industries.</p>
+            </details>
+            
+            <details>
+                <summary>Who is TrendPulse for?</summary>
+                <p>TrendPulse is designed for:</p>
+                <ul>
+                    <li>Indie game developers looking for game ideas</li>
+                    <li>Game studios validating concepts before development</li>
+                    <li>Game jam participants seeking inspiration</li>
+                    <li>Game design students learning market analysis</li>
+                    <li>AAA publishers researching market trends</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>Is TrendPulse free?</summary>
+                <p>TrendPulse itself is open-source and free. However, you'll need API keys from LLM providers (OpenRouter or Gemini) to use the AI features. These providers have their own pricing.</p>
+            </details>
+        </div>
+        
+        <div class="category">
+            <h2>Technical</h2>
+            
+            <details>
+                <summary>What programming languages are supported?</summary>
+                <p>TrendPulse provides:</p>
+                <ul>
+                    <li><strong>Python</strong> — Full SDK and CLI support</li>
+                    <li><strong>REST API</strong> — Any language can call the HTTP endpoints</li>
+                    <li><strong>CLI</strong> — Command-line interface for scripts</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>What LLM providers are supported?</summary>
+                <p>Currently supported:</p>
+                <ul>
+                    <li><strong>OpenRouter</strong> — 300+ models, including Claude, GPT, Llama</li>
+                    <li><strong>Google Gemini</strong> — Gemini Pro, Flash models</li>
+                </ul>
+                <p>You can also implement custom backends by extending the LLMBackend interface.</p>
+            </details>
+            
+            <details>
+                <summary>How does the circuit breaker work?</summary>
+                <p>After 3 consecutive failures (configurable via LLM_CIRCUIT_BREAKER_FAIL_THRESHOLD), the circuit opens for 20 seconds (configurable via LLM_CIRCUIT_BREAKER_OPEN_SECONDS). During this time, requests skip that provider and try the next one.</p>
+            </details>
+            
+            <details>
+                <summary>Is there rate limiting?</summary>
+                <p>Yes, default is 30 requests per 60 seconds. Configure via:</p>
+                <ul>
+                    <li>RATE_LIMIT_REQUESTS</li>
+                    <li>RATE_LIMIT_WINDOW_SECONDS</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>Does TrendPulse support streaming?</summary>
+                <p>Yes, all backends implement stream_chat() method for streaming responses.</p>
+            </details>
+            
+            <details>
+                <summary>What Python version is required?</summary>
+                <p>Python 3.11 or higher is required.</p>
+            </details>
+        </div>
+        
+        <div class="category">
+            <h2>Pricing & Costs</h2>
+            
+            <details>
+                <summary>How much does TrendPulse cost?</summary>
+                <p>TrendPulse is free and open-source. You only pay for the LLM API calls to your provider. OpenRouter and Gemini both have free tiers for development.</p>
+            </details>
+            
+            <details>
+                <summary>How can I reduce LLM costs?</summary>
+                <p>Use budget_mode: "low_cost" to switch to faster, cheaper models like Gemini Flash.</p>
+            </details>
+        </div>
+        
+        <div class="category">
+            <h2>Deployment</h2>
+            
+            <details>
+                <summary>How do I deploy TrendPulse?</h3>
+                <p>Multiple deployment options:</p>
+                <ul>
+                    <li><strong>Docker</strong> — docker build && docker run</li>
+                    <li><strong>Docker Compose</strong> — docker compose up</li>
+                    <li><strong>Kubernetes</strong> — Apply manifests from k8s/</li>
+                    <li><strong>Direct</strong> — uvicorn trendpulse.api:app</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>Can I run TrendPulse on serverless?</summary>
+                <p>Yes, TrendPulse works with any ASGI server and can be deployed to AWS Lambda, Google Cloud Run, or similar platforms.</p>
+            </details>
+            
+            <details>
+                <summary>What are the system requirements?</summary>
+                <p>Minimum:</p>
+                <ul>
+                    <li>Python 3.11+</li>
+                    <li>512MB RAM</li>
+                    <li>1 CPU core</li>
+                </ul>
+                <p>Recommended for production:</p>
+                <ul>
+                    <li>Python 3.11+</li>
+                    <li>2GB RAM</li>
+                    <li>2+ CPU cores</li>
+                </ul>
+            </details>
+        </div>
+        
+        <div class="category">
+            <h2>Troubleshooting</h2>
+            
+            <details>
+                <summary>API returns 429 error</summary>
+                <p>You've exceeded the rate limit. Wait 60 seconds or adjust RATE_LIMIT_REQUESTS in your configuration.</p>
+            </details>
+            
+            <details>
+                <summary>All providers failed error</summary>
+                <p>Check:</p>
+                <ul>
+                    <li>API keys are valid and not expired</li>
+                    <li>Network connectivity to LLM providers</li>
+                    <li>Check /ready endpoint for provider status</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>Invalid JSON response from LLM</summary>
+                <p>The LLM returned malformed JSON. This is usually temporary—retry the request.</p>
+            </details>
+            
+            <details>
+                <summary>Metrics not showing up</summary>
+                <p>Ensure you're calling /metrics endpoint. Metrics are in Prometheus text format.</p>
+            </details>
+        </div>
+        
+        <div class="category">
+            <h2>Contributing</h2>
+            
+            <details>
+                <summary>How can I contribute?</summary>
+                <p>We welcome contributions! See the GitHub repository for guidelines.</p>
+            </details>
+            
+            <details>
+                <summary>How do I add a new LLM provider?</summary>
+                <p>Implement the LLMBackend interface in a new file under adapters/ and register it in the gateway.</p>
+            </details>
+        </div>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="getting-started.html">← Getting Started</a>
+            <a href="api-reference.html">API Reference →</a>
+        </div>
+    </div>
+</body>
+</html>

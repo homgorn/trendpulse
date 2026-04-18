@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendPulse — ИИ-платформа для игровой индустрии</title>
+    <meta name="description" content="TrendPulse: ИИ-платформа для студий разработки игр. Находите тренды, генерируйте концепции игр, превращайте рыночный шум в успешные проекты.">
+    <meta name="keywords" content="разработка игр, игровой маркетинг, искусственный интеллект, анализ трендов, геймдизайн, генератор GDD, тренды игровой индустрии">
+    <meta name="author" content="TrendPulse">
+    <meta name="publisher" content="TrendPulse">
+    <link rel="canonical" href="https://trendpulse.com/ru/">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Russian">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="TrendPulse — ИИ для игровой индустрии">
+    <meta property="og:description" content="Превращайте рыночный шум в успешные игры. ИИ-платформа для поиска трендов и генерации концепций.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trendpulse.com/ru/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="TrendPulse">
+    <meta property="og:image" content="https://trendpulse.com/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TrendPulse — ИИ для игровой индустрии">
+    <meta name="twitter:description" content="Превращайте рыночный шум в успешные игры">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TrendPulse",
+        "description": "ИИ-платформа для поиска трендов и генерации концепций игр",
+        "url": "https://trendpulse.com/ru/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "ru",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Что такое TrendPulse?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse — это ИИ-платформа для студий разработки игр. Она помогает находить рыночные тренды и генерировать концепции игр."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Как работает TrendPulse?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse использует много-провайдерную маршрутизацию LLM для генерации идей на основе трендов. Комбинирует RAG-поиск с ИИ."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "TrendPulse бесплатный?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse бесплатен для разработки и тестирования. Для продакшена нужны API-ключи от LLM-провайдеров."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        header { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 20px 0; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #2563eb; }
+        nav a { margin-left: 20px; color: #666; text-decoration: none; }
+        nav a:hover { color: #2563eb; }
+        
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 20px; opacity: 0.9; margin-bottom: 30px; }
+        .cta { display: inline-block; background: #fff; color: #667eea; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        
+        .features { padding: 80px 0; }
+        .features h2 { text-align: center; margin-bottom: 40px; font-size: 36px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px; }
+        .feature-card h3 { margin-bottom: 15px; color: #2563eb; }
+        
+        .demo { background: #f9f9f9; padding: 80px 0; }
+        .demo h2 { text-align: center; margin-bottom: 40px; }
+        .demo-form { max-width: 600px; margin: 0 auto; }
+        .demo-form input, .demo-form select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; }
+        .demo-form button { width: 100%; padding: 15px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        
+        .faq { padding: 80px 0; }
+        .faq h2 { text-align: center; margin-bottom: 40px; }
+        .faq details { margin-bottom: 20px; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; }
+        .faq summary { font-weight: bold; cursor: pointer; }
+        
+        footer { background: #1a1a2e; color: #fff; padding: 40px 0; text-align: center; }
+        footer a { color: #fff; margin: 0 15px; }
+        
+        .status { display: flex; justify-content: center; gap: 30px; padding: 20px; background: #f0f0f0; }
+        .status-item { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">TrendPulse</div>
+            <nav>
+                <a href="#features">Возможности</a>
+                <a href="#demo">Демо</a>
+                <a href="#faq">FAQ</a>
+                <a href="landing.html">EN</a>
+                <a href="https://github.com/trendpulse/trendpulse">GitHub</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Превратите Рыночный Шум в Успешные Игры</h1>
+            <p>ИИ-платформа для игровых студий. Находите тренды, генерируйте концепции, создавайте лучшие игры.</p>
+            <a href="#demo" class="cta">Попробовать Демо</a>
+        </div>
+    </section>
+    
+    <section class="status">
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>API: Онлайн</span>
+        </div>
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>OpenRouter: Подключён</span>
+        </div>
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>Gemini: Подключён</span>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Возможности</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>ИИ-обнаружение трендов</h3>
+                    <p>Отслеживайте тренды в соцсетях, крипте, играх и смежных индустриях для выявления новых возможностей.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Генератор концепций игр</h3>
+                    <p>Создавайте коммерчески привлекательные идеи игр с анализом аудитории, стратегиями монетизации и оценкой рисков.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Многопровайдерная LLM маршрутизация</h3>
+                    <p>Автоматическое переключение между OpenRouter, Gemini и другими провайдерами для надёжности и оптимизации стоимости.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>RAG-поиск</h3>
+                    <p>Семантический поиск по трендам с использованием векторных эмбеддингов для генерации с учётом контекста.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>CLI и API</h3>
+                    <p>Простая интеграция через REST API или CLI. Генерируйте идеи из скриптов, CI/CD или напрямую.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Готов к продакшену</h3>
+                    <p>Встроенные circuit breakers, rate limiting, retry логика и observability для высоких нагрузок.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Как это работает -->
+    <section id="how-it-works" style="padding: 80px 0; background: #fff;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Как Это Работает</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">1</div>
+                    <h3>Введите тренд</h3>
+                    <p>Укажите тему, платформу и регион. TrendPulse проанализирует вашу нишу.</p>
+                </div>
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">2</div>
+                    <h3>ИИ-обработка</h3>
+                    <p>Многопровайдерная маршрутизация выбирает лучшую модель для вашей задачи.</p>
+                </div>
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; margin-bottom: 20px;">3</div>
+                    <h3>Получите концепцию игры</h3>
+                    <p>Получите готовую идею игры с аудиторией, монетизацией, рисками и источниками.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Архитектура -->
+    <section id="architecture" style="padding: 80px 0; background: #f9f9f9;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Архитектура</h2>
+            <div style="background: #1a1a2e; color: #fff; padding: 40px; border-radius: 12px; overflow-x: auto;">
+                <pre style="font-family: monospace; font-size: 14px; line-height: 1.8; white-space: pre-wrap;">
+┌─────────────────────────────────────────────────────────────┐
+│                    Архитектура TrendPulse                    │
+├─────────────────────────────────────────────────────────────┤
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
+│  │   REST API   │───▶│   Service    │───▶│  LLM Gateway │  │
+│  │   (FastAPI)  │    │  (Business)  │    │(Маршрутиз. + │  │
+│  └──────────────┘    └──────────────┘    │  Fallback)   │  │
+│                                          └───────┬────────┘  │
+│  ┌───────────────────────────────────────────────┼────────┐  │
+│  │                  Слой адаптеров               │        │  │
+│  │  ┌──────────────────┐    ┌────────────────┐  │        │  │
+│  │  │ OpenRouter       │    │ Gemini         │◀─┘        │  │
+│  │  └──────────────────┘    └────────────────┘           │  │
+│  └────────────────────────────────────────────────────────┘  │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐  │
+│  │   Метрики    │    │Rate Limiter  │    │   Логирование│  │
+│  │ (Prometheus) │    │  (In-Memory) │    │  (Trace ID)  │  │
+│  └──────────────┘    └──────────────┘    └──────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Варианты использования -->
+    <section id="use-cases" style="padding: 80px 0; background: #fff;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Варианты Использования</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px;">
+                    <h3 style="color: #2563eb; margin-bottom: 15px;">Инди-студии</h3>
+                    <p>Быстро проверяйте игровые идеи перед началом разработки. Генерируйте 10+ концепций за минуты.</p>
+                </div>
+                <div style="padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px;">
+                    <h3 style="color: #2563eb; margin-bottom: 15px;">AAA издатели</h3>
+                    <p>Отслеживайте тренды на разных рынках для информирования флагманских проектов.</p>
+                </div>
+                <div style="padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px;">
+                    <h3 style="color: #2563eb; margin-bottom: 15px;">Game Jams</h3>
+                    <p>Мгновенное вдохновение для тем джемов. Креативные концепции с готовой аудиторией и монетизацией.</p>
+                </div>
+                <div style="padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px;">
+                    <h3 style="color: #2563eb; margin-bottom: 15px;">Образование</h3>
+                    <p>Обучайте геймдизайну, генерируя реальные примеры. Идеально для классов и онлайн-курсов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Тарифы -->
+    <section id="pricing" style="padding: 80px 0; background: #f9f9f9;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Тарифы</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 900px; margin: 0 auto;">
+                <div style="padding: 40px; background: #fff; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">Разработчик</h3>
+                    <div style="font-size: 48px; font-weight: bold; margin-bottom: 20px;">0₽</div>
+                    <p style="color: #666; margin-bottom: 20px;">Бесплатно навсегда</p>
+                    <ul style="text-align: left; list-style: none; margin-bottom: 30px;">
+                        <li style="padding: 8px 0;">✓ 100 запросов/месяц</li>
+                        <li style="padding: 8px 0;">✓ OpenRouter + Gemini</li>
+                        <li style="padding: 8px 0;">✓ CLI доступ</li>
+                        <li style="padding: 8px 0;">✓ Поддержка сообщества</li>
+                    </ul>
+                    <a href="#demo" style="display: inline-block; padding: 12px 30px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px;">Начать</a>
+                </div>
+                <div style="padding: 40px; background: #fff; border: 2px solid #2563eb; border-radius: 12px; text-align: center; position: relative;">
+                    <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #2563eb; color: #fff; padding: 4px 16px; border-radius: 12px; font-size: 12px;">ПОПУЛЯРНЫЙ</div>
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">Про</h3>
+                    <div style="font-size: 48px; font-weight: bold; margin-bottom: 20px;">2900₽<span style="font-size: 16px; color: #666;">/мес</span></div>
+                    <p style="color: #666; margin-bottom: 20px;">Для небольших команд</p>
+                    <ul style="text-align: left; list-style: none; margin-bottom: 30px;">
+                        <li style="padding: 8px 0;">✓ 10 000 запросов/месяц</li>
+                        <li style="padding: 8px 0;">✓ Приоритетная маршрутизация</li>
+                        <li style="padding: 8px 0;">✓ API доступ</li>
+                        <li style="padding: 8px 0;">✓ Email поддержка</li>
+                    </ul>
+                    <a href="#demo" style="display: inline-block; padding: 12px 30px; background: #2563eb; color: #fff; text-decoration: none; border-radius: 6px;">Попробовать</a>
+                </div>
+                <div style="padding: 40px; background: #fff; border: 2px solid #e5e5e5; border-radius: 12px; text-align: center;">
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">Бизнес</h3>
+                    <div style="font-size: 48px; font-weight: bold; margin-bottom: 20px;">Индивидуально</div>
+                    <p style="color: #666; margin-bottom: 20px;">Свяжитесь с нами</p>
+                    <ul style="text-align: left; list-style: none; margin-bottom: 30px;">
+                        <li style="padding: 8px 0;">✓ Безлимитные запросы</li>
+                        <li style="padding: 8px 0;">✓ Свои модели</li>
+                        <li style="padding: 8px 0;">✓ Выделенная инфраструктура</li>
+                        <li style="padding: 8px 0;">✓ 24/7 поддержка</li>
+                    </ul>
+                    <a href="mailto:contact@trendpulse.com" style="display: inline-block; padding: 12px 30px; background: #1a1a2e; color: #fff; text-decoration: none; border-radius: 6px;">Связаться</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Отзывы -->
+    <section id="testimonials" style="padding: 80px 0; background: #fff;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Что Говорят Разработчики</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="padding: 30px; background: #f9f9f9; border-radius: 8px;">
+                    <p style="font-style: italic; margin-bottom: 20px;">"TrendPulse сэкономил нам недели исследований. Мы сгенерировали 50 концепций игр за день и нашли наш следующий хит."</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold;">АК</div>
+                        <div>
+                            <div style="font-weight: bold;">Алексей Козлов</div>
+                            <div style="color: #666; font-size: 14px;">Инди-разработчик</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 30px; background: #f9f9f9; border-radius: 8px;">
+                    <p style="font-style: italic; margin-bottom: 20px;">"Многопровайдерная маршрутизация — гений. Никогда не беспокойтесь о падении API. Просто работает."</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold;">МР</div>
+                        <div>
+                            <div style="font-weight: bold;">Мария Петрова</div>
+                            <div style="color: #666; font-size: 14px;">CTO, GameStudio X</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 30px; background: #f9f9f9; border-radius: 8px;">
+                    <p style="font-style: italic; margin-bottom: 20px;">"Использовал для Game Jam. Идеи были удивительно хороши. Заняли 2-е место благодаря TrendPulse!"</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="width: 50px; height: 50px; background: #2563eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold;">ИС</div>
+                        <div style="display: flex; flex-direction: column;">
+                            <div style="font-weight: bold;">Иван Сергеев</div>
+                            <div style="color: #666; font-size: 14px;">Участник Game Jam</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA -->
+    <section style="padding: 100px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 40px; margin-bottom: 20px;">Готовы Создать Следующий Хит?</h2>
+            <p style="font-size: 20px; opacity: 0.9; margin-bottom: 40px;">Присоединяйтесь к тысячам разработчиков, которые находят идеи с TrendPulse.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="#demo" style="display: inline-block; background: #fff; color: #667eea; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px;">Попробовать Демо</a>
+                <a href="https://github.com/trendpulse/trendpulse" style="display: inline-block; background: transparent; color: #fff; padding: 15px 40px; border: 2px solid #fff; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px;">Смотреть на GitHub</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>Попробуйте Сейчас</h2>
+            <form class="demo-form" id="generateForm">
+                <input type="text" name="theme" placeholder="Тема (например: AI инструменты, крипто, фэнтези)" required>
+                <select name="platform">
+                    <option value="tiktok">TikTok</option>
+                    <option value="mobile">Мобильные</option>
+                    <option value="steam">Steam</option>
+                    <option value="console">Консоли</option>
+                </select>
+                <select name="region">
+                    <option value="global">Глобально</option>
+                    <option value="us">США</option>
+                    <option value="eu">Европа</option>
+                    <option value="asia">Азия</option>
+                </select>
+                <select name="budget_mode">
+                    <option value="balanced">Баланс</option>
+                    <option value="low_cost">Эконом</option>
+                </select>
+                <select name="task_type">
+                    <option value="creative">Креатив</option>
+                    <option value="analysis">Анализ</option>
+                    <option value="reasoning">Рассуждение</option>
+                </select>
+                <button type="submit">Сгенерировать Идею</button>
+            </form>
+            <div id="result" style="margin-top: 20px; padding: 20px; display: none;"></div>
+        </div>
+    </section>
+    
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2>FAQ</h2>
+            <details>
+                <summary>Что такое TrendPulse?</summary>
+                <p>TrendPulse — это ИИ-платформа для студий разработки игр. Она помогает находить рыночные тренды и генерировать концепции игр.</p>
+            </details>
+            <details>
+                <summary>Как работает TrendPulse?</summary>
+                <p>TrendPulse использует многопровайдерную маршрутизацию LLM для генерации идей на основе трендов. Комбинирует RAG-поиск с ИИ.</p>
+            </details>
+            <details>
+                <summary>TrendPulse бесплатный?</summary>
+                <p>TrendPulse бесплатен для разработки и тестирования. Для продакшена нужны API-ключи от LLM-провайдеров.</p>
+            </details>
+            <details>
+                <summary>Какие провайдеры поддерживаются?</summary>
+                <p>TrendPulse поддерживает OpenRouter (300+ моделей), Google Gemini и может быть расширен для других провайдеров.</p>
+            </details>
+            <details>
+                <summary>Как интегрировать в мой проект?</summary>
+                <p>Используйте REST API (POST /v1/generate) или CLI (trendpulse generate). Смотрите документацию.</p>
+            </details>
+        </div>
+    </section>
+    
+    <!-- Контакты -->
+    <section id="contact" style="padding: 80px 0; background: #f9f9f9;">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 36px;">Свяжитесь с Нами</h2>
+            <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+                <p style="margin-bottom: 30px; color: #666;">Есть вопросы? Хотите сотрудничать? Мы будем рады услышать вас.</p>
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://github.com/trendpulse/trendpulse" style="display: flex; align-items: center; gap: 10px; color: #333; text-decoration: none; padding: 15px 25px; background: #fff; border-radius: 8px; border: 1px solid #e5e5e5;">
+                        <span style="font-size: 24px;">🐙</span> GitHub
+                    </a>
+                    <a href="mailto:contact@trendpulse.com" style="display: flex; align-items: center; gap: 10px; color: #333; text-decoration: none; padding: 15px 25px; background: #fff; border-radius: 8px; border: 1px solid #e5e5e5;">
+                        <span style="font-size: 24px;">📧</span> Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TrendPulse. Все права защищены.</p>
+            <div style="margin-top: 15px;">
+                <a href="https://github.com/trendpulse/trendpulse">GitHub</a>
+                <a href="#terms">Условия использования</a>
+                <a href="#privacy">Политика конфиденциальности</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            result.textContent = 'Генерация...';
+            
+            try {
+                const res = await fetch('/v1/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        theme: form.theme.value,
+                        platform: form.platform.value,
+                        region: form.region.value,
+                        budget_mode: form.budget_mode.value,
+                        task_type: form.task_type.value
+                    })
+                });
+                const data = await res.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (err) {
+                result.textContent = 'Ошибка: ' + err.message;
+            }
+        });
+    </script>
+</body>
+</html>
