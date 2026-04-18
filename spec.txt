@@ -1,0 +1,300 @@
+1. Общая идея
+Ядро (TrendPulse-Core) должно не знать, какая именно модель/провайдер используется.
+Вся работа с LLM идёт через:
+
+единый LLM Gateway (или адаптер),
+а «модули» – это плагины к этому Gateway:
+– OpenRouter,
+– Google Gemini,
+– GLM / Qwen / DeepSeek,
+– OpenAI / Anthropic,
+– Together / Fireworks / Groq и т.д.
+2. Модульная архитектура LLM-слоя
+Схема того, как это выглядит в коде:
+
+REST / SDK
+
+google-genai SDK
+
+OpenAI-compatible
+
+official SDKs
+
+OpenAI-compatible / own SDKs
+
+Agent / Service
+
+LLM Gateway
+
+OpenRouter
+
+Gemini
+
+GLM-Qwen-DeepSeek
+
+OpenAI-Anthropic
+
+Together-Fireworks-Groq
+
+OpenRouter API
+
+Gemini API
+
+Chinese Providers
+
+OpenAI, Anthropic
+
+Together, Fireworks, Groq
+
+Дальше – конкретные модули и ссылки.
+
+3. Roadmap: модули API/LLM
+3.1. Модуль OpenRouter (обязательный минимум)
+Зачем: единый доступ к 300+ моделям (Llama, Qwen, DeepSeek, Mistral, Gemini, Claude и т.д.) через один API и SDK.
+Что делаем:
+
+Python-SDK: OpenRouterTeam/python-sdk
+github
+
+Репо: https://github.com/OpenRouterTeam/python-sdk【turn0search3】
+TS-SDK: OpenRouterTeam/typescript-sdk
+github
+
+Репо: https://github.com/OpenRouterTeam/typescript-sdk【turn0search0】
+Документация: https://openrouter.ai/docs/sdks/typescript【turn0search2】
+В дорожной карте:
+
+ Реализовать OpenRouterModule:
+конфиг: OPENROUTER_API_KEY, base_url, список разрешённых моделей.
+методы: chat(), embed(), list_models().
+ Использовать его как основной фолбек для китайских и западных моделей.
+3.2. Модуль Google Gemini
+Зачем: дешёвые и быстрые модели, хорошие для:
+
+чат-ботов,
+суммаризации,
+мультимодальных задач.
+SDK:
+
+Python SDK: google-genai
+Репо: https://github.com/googleapis/python-genai【turn0search5】
+JS/TS SDK: @google/genai – см. список библиотек: https://ai.google.dev/gemini-api/docs/libraries【turn0search8】
+В дорожной карте:
+
+ Реализовать GeminiModule:
+конфиг: GEMINI_API_KEY, модель по умолчанию (gemini-2.0-flash и т.п.).
+поддержка chat, embed, возможно generate_content для мультимода.
+ Интегрировать как отдельный провайдер в LLM Gateway.
+3.3. Модуль китайских моделей (GLM, Qwen, DeepSeek)
+3.3.1. GLM (Zhipu AI)
+Сервис: https://bigmodel.cn【turn0search14】
+Open-source модели:
+
+GLM-4.5 / GLM-4.5-Air – репо: https://github.com/zai-org/GLM-4.5【turn0search12】
+GLM-4.6V (мультимодальный) – репо: https://github.com/zai-org/GLM-V【turn1search13】
+Блог: https://z.ai/blog/glm-4.6v【turn0search13】
+В дорожной карте:
+
+ Реализовать GLMModule:
+поддержка OpenAI-совместимого API (Zhipu платформа),
+опционально – локальный запуск GLM-4.5-Air через vLLM/Transformers.
+3.3.2. Qwen (Alibaba)
+Open-source модели:
+
+Qwen2.5 – серия LLM, репо: https://github.com/QwenLM/Qwen2.5【turn1search4】
+Qwen2.5-VL – мультимодальные VL-модели, репо:
+– https://github.com/QwenLM/Qwen-VL【turn1search6】
+– документация в Transformers: https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/qwen2_5_vl.md【turn1search7】
+Qwen3 – новые MoE-модели: https://github.com/QwenLM/Qwen3【turn1search10】
+Qwen2.5-Omni – end-to-end мультимодальная модель: https://github.com/QwenLM/Qwen2.5-Omni【turn1search0】
+Сервис: Alibaba Cloud ModelStudio / Qwen Chat
+qwenlm.github
+ .
+
+В дорожной карте:
+
+ Реализовать QwenModule:
+поддержка OpenAI-совместимого API Alibaba Cloud,
+опционально локальный запуск Qwen2.5 / Qwen3 через vLLM/Transformers.
+3.3.3. DeepSeek
+Open-source модели:
+
+DeepSeek-V3 – репо: https://github.com/deepseek-ai/DeepSeek-V3【turn0search15】
+DeepSeek-R1 – репо: https://github.com/deepseek-ai/DeepSeek-R1【turn0search16】
+API: DeepSeek API (OpenAI-совместимый), есть неофициальный Python-пакет deepseek4free
+github
+ .
+
+В дорожной карте:
+
+ Реализовать DeepSeekModule:
+конфиг: DEEPSEEK_API_KEY, base_url.
+использовать как «reasoning-модель» для сложных агентов.
+3.4. Модуль OpenAI / Anthropic (западные премиум-модели)
+3.4.1. OpenAI
+Python SDK: openai-python – официальная библиотека:
+Репо: https://github.com/openai/openai-python【turn2search0】
+
+В дорожной карте:
+
+ Реализовать OpenAIModule:
+поддержка gpt-4.x, gpt-5 и т.п.
+developers.openai
+использовать как фолбек для сложных задач (coding, long-context).
+3.4.2. Anthropic (Claude)
+Python SDK: anthropic-sdk-python – репо: https://github.com/anthropics/anthropic-sdk-python【turn2search5】
+Agent SDK: claude-agent-sdk-python – репо: https://github.com/anthropics/claude-agent-sdk-python【turn2search6】
+
+В дорожной карте:
+
+ Реализовать ClaudeModule:
+использовать для агентов (через Agent SDK) и для премиум-чата.
+3.5. Модуль Together / Fireworks / Groq (OpenAI-совместимые провайдеры)
+Все три можно подключать через тот же OpenAI SDK, меняя base_url и ключ.
+
+3.5.1. Together AI
+OpenAI-совместимый API: https://docs.together.ai/docs/openai-api-compatibility【turn3search0】
+Python SDK (v1/v2): https://www.together.ai/blog/python-sdk-v1【turn3search1】
+В дорожной карте:
+
+ Реализовать TogetherModule:
+конфиг: TOGETHER_API_KEY, base_url.
+использовать для open-source моделей (Llama, Qwen и т.д.) на их инфраструктуре.
+3.5.2. Fireworks AI
+OpenAI-совместимый API: https://docs.fireworks.ai/tools-sdks/openai-compatibility【turn3search5】
+Можно использовать стандартный openai клиент, меняя base_url на https://api.fireworks.ai/inference/v1.
+В дорожной карте:
+
+ Реализовать FireworksModule:
+использовать для fast inference open-source моделей.
+3.5.3. Groq
+Python SDK: groq-python – репо: https://github.com/groq/groq-python【turn3search10】
+Документация: https://console.groq.com/docs/quickstart【turn3search11】
+В дорожной карте:
+
+ Реализовать GroqModule:
+использовать для максимально быстрых ответов (Llama, Qwen, и т.д.).
+3.6. Модуль MCP (Model Context Protocol) – важный для агентов
+Python SDK: modelcontextprotocol/python-sdk – репо: https://github.com/modelcontextprotocol/python-sdk【turn2search9】
+
+Зачем:
+
+exposing инструменты (поиск трендов, генерация ассетов и т.п.) как MCP-tools,
+подключение Claude / других LLM как агентов, которые видят эти инструменты.
+В дорожной карте:
+
+ Реализовать MCPToolsModule:
+обёртка над MCP SDK,
+регистрация всех инструментов TrendPulse как MCP-сервер.
+4. Как это всё собрать в дорожную карту по спринтам
+Спринт 1: Ядро + OpenRouter + один модуль
+Реализовать LLM Gateway (абстрактный интерфейс LLMBackend).
+Сделать OpenRouterModule на базе OpenRouterTeam/python-sdk
+github
+ .
+Протестировать:
+чат (Qwen, DeepSeek, Llama, Gemini через OpenRouter),
+embeddings.
+Спринт 2: Gemini + китайские модели как отдельные модули
+Добавить GeminiModule (google-genai SDK)
+github
+ .
+Добавить GLMModule (через bigmodel.cn API + опционально локально GLM-4.5)
+bigmodel
++1
+ .
+Добавить QwenModule (Alibaba Cloud API + локальные Qwen2.5/Qwen3)
+github
++1
+ .
+Добавить DeepSeekModule (DeepSeek API + V3/R1)
+github
++1
+ .
+Спринт 3: Западные премиум-модели и OpenAI-совместимые провайдеры
+Добавить OpenAIModule (openai-python)
+github
+ .
+Добавить ClaudeModule (anthropic-sdk-python, claude-agent-sdk-python)
+github
++1
+ .
+Добавить TogetherModule, FireworksModule, GroqModule – все как OpenAI-совместимые провайдеры
+docs.together
++2
+ .
+Спринт 4: MCP-модуль и агенты
+Реализовать MCPToolsModule (modelcontextprotocol/python-sdk)
+github
+ .
+Описать инструменты:
+поиск трендов (crypto, adult, TikTok),
+генерация GDD,
+генерация артов (Stable Diffusion, Qwen-Image-2 и т.п.).
+Интегрировать Claude / другие модели как MCP-клиенты.
+5. Как это выглядит в коде (пример интерфейса)
+Условный интерфейс:
+
+python
+
+# core/llm/backends.py
+from abc import ABC, abstractmethod
+from typing import AsyncIterator, List, Dict, Any
+
+class LLMBackend(ABC):
+    @abstractmethod
+    async def chat(
+        self,
+        messages: List[Dict[str, Any]],
+        *,
+        model: str | None = None,
+        temperature: float = 0.7,
+        max_tokens: int = 2048,
+    ) -> str: ...
+
+    @abstractmethod
+    async def stream_chat(
+        self,
+        messages: List[Dict[str, Any]],
+        *,
+        model: str | None = None,
+        temperature: float = 0.7,
+        max_tokens: int = 2048,
+    ) -> AsyncIterator[str]: ...
+
+    @abstractmethod
+    async def embed(
+        self,
+        texts: List[str],
+        *,
+        model: str | None = None,
+    ) -> List[List[float]]: ...
+Модули:
+
+python
+
+# modules/openrouter/backend.py
+from openrouter import OpenRouter  # условно
+from core.llm.backends import LLMBackend
+
+class OpenRouterBackend(LLMBackend):
+    def __init__(self, api_key: str, base_url: str | None = None):
+        self.client = OpenRouter(api_key=api_key, base_url=base_url)
+
+    async def chat(self, messages, *, model=None, temperature=0.7, max_tokens=2048) -> str:
+        resp = await self.client.chat.send(
+            model=model or "qwen/qwen-2.5-72b-instruct",
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        return resp.text
+
+    # ... stream_chat, embed
+Аналогично:
+
+GeminiBackend – через google-genai
+github
+ ,
+GLMBackend – через OpenAI-совместимый API или локальный инференс,
+QwenBackend, DeepSeekBackend, OpenAIBackend, ClaudeBackend и т.д.

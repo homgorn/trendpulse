@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trendpulse-api
+  labels:
+    app: trendpulse-api
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8100
+      protocol: TCP
+      name: http
+  selector:
+    app: trendpulse-api

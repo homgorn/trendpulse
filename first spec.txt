@@ -1,0 +1,128 @@
+Проект: TrendPulse Engine
+Тип: AI-Driven Market Intelligence & Content Generation Platform for Gaming.
+Слоган: «Превращаем шум интернета в успешные игры».
+
+1. Видение и Цель
+Проблема: Геймдев слеп. Студии тратят месяцы на разработку игр, которые никто не покупает, потому что не понимают, что их аудитория занята просмотром TikTok, ставками на киберспорт или донатами стримерам. Данные разрознены, а аналитика отстает на месяцы.
+
+Решение: TrendPulse Engine — это высоконагруженная SaaS-платформа (с Open Source ядром), которая в реальном времени мониторит «соседние индустрии» (Adult, Crypto, Social Video, iGaming), находит точки пересечения трендов и генерирует готовые Game Design Documents (GDD), концепт-арты и спеки для разработчиков.
+
+2. Функционал Сервиса (User Stories)
+2.1. Панель «Радар Трендов» (Trend Radar)
+Карта внимания: Визуализация того, куда уходит время аудитории. Видны «магниты» (например, всплеск интереса к "gacha-механикам" или "horror-контенту" на TikTok).
+Кросс-индустриальный поиск:
+Пример: Показать тренды на стыке Crypto (мемкоины) + Adult (косплей) + Mobile Gaming (hyper-casual).
+Аналитика риска: Оценка, является ли тренд «пузырем» (хайп на 2 дня) или устойчивым паттерном.
+2.2. Генератор Идей (Idea Forge)
+Ввод: Пользователь выбирает параметры (Платформа: Mobile, Регион: China, Жанр: RPG).
+Действие: Система использует RAG (поиск по базе знаний трендов) и LLM-агентов.
+Вывод:
+Концепт-питч: Название, логлайн, уникальная механика (скрестить TikTok Reels и покер).
+Целевая аудитория: Портрет игрока (почему он уйдет из Roblox к вам).
+Monetization Strategy: Как монетизировать так же эффективно, как конкуренты (Battle Pass, NFT, скины).
+2.3. Продакшн-Ассистент (Production Suite)
+Auto-GDD: Генерация 10-15 страничного документа с описанием механик, лора и progression system.
+Visual Moodboard: Генерация набора картинок (Stable Diffusion / Qwen-VL) в стиле игры.
+Technical Spec: Список технологий, SDK и评估 effort разработки (на основе исторических данных).
+2.4. API для Студий (Enterprise)
+Интеграция с Jira/Linear: Автоматическое создание тикетов на основе сгенерированного GDD.
+Webhooks: Уведомление в Slack, когда система находит "жирный" тренд, подходящий под профиль студии.
+3. Техническая Архитектура (High-Level)
+Система построена по принципу Microkernel Architecture (ядро + плагины) с Event-Driven взаимодействием.
+
+Схема данных и потоков:
+Data Layer (Сбор): Парсеры тянут данные из источников.
+Core Layer (Обработка): Нормализация, векторизация, сохранение.
+Agent Layer (Мозг): Мультиагентная система, принимающая решения.
+Interface Layer (Отдача): API, Web UI, Telegram Bot.
+4. Подробное описание модулей
+Модуль 1: Ingestion Core (Сбор данных)
+High-Load компонент.
+
+Технологии: Python (AsyncIO), Playwright/Selenium, Scrapy.
+Источники (Data Connectors):
+Social: TikTok API, YouTube Trends, Twitter (X) Trends.
+Finance: CoinGecko/CoinMarketCap (тренды мемкоинов).
+Adult: Pornhub Insights / RedTube API (топ теги по странам — метаданные).
+Gaming: Steam Charts, Sensor Tower, App Annie (топ чарты).
+Механизм: Работает как набор независимых "пауков". Данные летят в Kafka/Redis Streams.
+Фича: Прокси-ротация и обход анти-бот систем (интеграция с сервисами решения капчи).
+Модуль 2: Vector Brain (Хранение и Поиск)
+Технологии: Qdrant (Vector DB) + PostgreSQL (Metadata).
+Логика:
+Все тренды (текст, теги, картинки) превращаются в эмбеддинги (через Qwen2.5 или OpenAI Embeddings).
+При запросе "игра про котиков" система ищет не слово "котик", а семантически близкие понятия (например, "пушистый", "kawaii", "антистресс"), встречающиеся в порно или крипто-трендах.
+RAG (Retrieval-Augmented Generation): LLM получает контекст из векторной базы перед генерацией ответа.
+Модуль 3: LLM Gateway (Unified AI Interface)
+Централизованный доступ к моделям.
+
+Реализация: Абстрактный класс LLMBackend с единым интерфейсом .chat(), .embed().
+Провайдеры (SDK интеграции):
+Primary: OpenRouter SDK (доступ к 300+ моделям: Llama 4, Qwen3, Gemini).
+Chinese: GLM-4 (Zhipu AI), Qwen-Max (Alibaba), DeepSeek V3/R1.
+Western: Anthropic Claude, Google Gemini (официальные SDK).
+Логика переключения:
+Если задача Reasoning (анализ, математика) -> DeepSeek R1 / Qwen3 Reasoning.
+Если задача Creative (тексты) -> Claude Opus / Llama 4 Maverick.
+Если задача Multimodal (картинки) -> Qwen-VL / Stable Diffusion 3.5.
+Модуль 4: Agentic Orchestrator (Оркестрация)
+Мультиагентность через LangGraph.
+
+Агенты (Роли):
+TrendHunter: Ищет данные в Vector Brain.
+GameDesigner: Пишет GDD.
+Critic: Проверяет GDD на логические ошибки.
+Artist: Генерирует промпты для SD / генерирует картинки.
+Память: Redis (краткосрочная память диалога), Postgres (долгосрочная память о предпочтениях юзера).
+Модуль 5: Generative Media
+Image: Stable Diffusion 3.5 / SDXL Turbo / DeepFloyd IF (через API или локально).
+Video (MVP): Kandinsky Video / Open-Sora (генерация превью видео-ролика о концепте игры).
+Модуль 6: MCP Server (Model Context Protocol)
+Назначение: Позволяет внешним агентам (например, Claude Desktop или IDE) управлять сервисом.
+Функции: Выставляет инструменты search_trends, generate_game_idea, create_asset наружу. Позволяет "говорить" с тренд-движком на естественном языке.
+5. Пользовательский Интерфейс (Frontend)
+Tech: Next.js (App Router) + Tailwind CSS + Shadcn UI.
+SEO-стратегия:
+Каждая сгенерированная идея игры становится публичной страницей (SSG).
+Пример урла: /ideas/mobile-casual-crypto-cats-2026-03.
+Контент: Ключевые слова из трендов (TikTok trends, Crypto memes) -> Высокий SEO-трафик.
+Личный кабинет: Дашборд с сохраненными идеями, списком "watched" трендов и API ключами.
+6. Roadmap (План развития)
+Phase 1: MVP (Core Engine)
+ Реализовать LLM Gateway (OpenRouter + Gemini).
+ Написать парсеры для TikTok и Crypto (простые скрипты).
+ Развернуть Qdrant и написать RAG-цепочку.
+ Сделать CLI утилиту: trendpulse generate --theme=crypto --platform=mobile.
+Результат: Рабочий бэкенд, который выдает JSON с идеей игры.
+Phase 2: Agents & Web
+ Интеграция LangGraph для мультиагентности.
+ Подключение парсеров Adult индустрии (метаданные).
+ Разработка Web UI (Next.js).
+ Интеграция SD3.5 для генерации обложек.
+Результат: Базовый SaaS, куда можно зайти и сгенерировать идею.
+Phase 3: Enterprise & Scaling
+ MCP Server интеграция.
+ API Rate Limits и биллинг (Stripe).
+ Интеграция с Jira/Linear (плагины).
+ Подключение китайских моделей (GLM/Qwen) для точного анализа азиатского рынка.
+7. Маркетинговые "Крючки"
+"Data-Driven Porn for Games": Провокационный лозунг. Мы используем данные индустрии для взрослых, чтобы делать игры привлекательнее.
+"Kill the Sequel Fatigue": Помогаем создавать не сиквелы, а новые хайпы, объединяя механики из разных миров.
+Open Source Core: Сообщество может писать своих парсеров и агентов, расширяя платформу.
+8. Ссылки на ключевые ресурсы (для разработки)
+SDK и Инструменты:
+
+OpenRouter SDK (Unified LLM): GitHub TS, GitHub Python
+Google Gen AI SDK (Gemini): GitHub Python
+MCP Protocol (Context): Model Context Protocol / Python SDK
+LangGraph (Orchestration): LangGraph Docs
+Open Source Модели (для локального деплоя):
+
+DeepSeek V3/R1 (Reasoning): GitHub
+GLM-4 / GLM-4.6V (Chinese Multimodal): Zhipu AI / GitHub
+Qwen2.5-VL / Qwen3 (Vision & Text): GitHub
+Аналитика трендов (Data Sources):
+
+TikTok API: TikTok for Developers
+CoinGecko API: CoinGecko API Docs
+Pornhub API (Webmasters): Pornhub Webmaster (для получения тегов/категорий)

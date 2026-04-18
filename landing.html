@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendPulse — AI-Driven Market Intelligence for Gaming</title>
+    <meta name="description" content="TrendPulse Engine: AI platform for game studios to discover market trends and generate game concepts. Turn market noise into successful games.">
+    <meta name="keywords" content="game development, market intelligence, AI gaming, trend analysis, game design, GDD generator, gaming trends">
+    <meta name="author" content="TrendPulse">
+    <meta name="publisher" content="TrendPulse">
+    <link rel="canonical" href="https://trendpulse.com/">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="TrendPulse — AI-Driven Market Intelligence for Gaming">
+    <meta property="og:description" content="Turn market noise into successful games. AI platform for game studios to discover trends and generate game concepts.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trendpulse.com/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="TrendPulse">
+    <meta property="og:image" content="https://trendpulse.com/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TrendPulse — AI for Gaming Market Intelligence">
+    <meta name="twitter:description" content="Turn market noise into successful games">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+    
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TrendPulse",
+        "description": "AI-Driven Market Intelligence & Content Generation Platform for Gaming",
+        "url": "https://trendpulse.com/",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "AI-powered trend detection",
+            "Game concept generation",
+            "Multi-provider LLM routing",
+            "RAG-based retrieval"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "TrendPulse",
+            "url": "https://trendpulse.com/"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "TrendPulse",
+        "url": "https://trendpulse.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://trendpulse.com/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is TrendPulse?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse is an AI-driven platform for game studios to discover market trends and generate game concepts. It helps turn market noise into successful games by analyzing trends across multiple industries."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does TrendPulse work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse uses multi-provider LLM routing to generate game ideas based on market trends. It combines RAG-based retrieval with AI to create actionable game concepts."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is TrendPulse free to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "TrendPulse offers a free tier for development and testing. Production usage requires API keys from supported LLM providers (OpenRouter, Gemini)."
+                }
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SpeakableSpecification",
+        "cssSelector": [".hero h1", ".hero p", ".faq details"]
+    }
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 20px 0; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; color: #2563eb; }
+        nav a { margin-left: 20px; color: #666; text-decoration: none; }
+        nav a:hover { color: #2563eb; }
+        
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 80px 0; text-align: center; }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 20px; opacity: 0.9; margin-bottom: 30px; }
+        .cta { display: inline-block; background: #fff; color: #667eea; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        
+        /* Features */
+        .features { padding: 80px 0; }
+        .features h2 { text-align: center; margin-bottom: 40px; font-size: 36px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card { padding: 30px; border: 1px solid #e5e5e5; border-radius: 8px; }
+        .feature-card h3 { margin-bottom: 15px; color: #2563eb; }
+        
+        /* API Demo */
+        .demo { background: #f9f9f9; padding: 80px 0; }
+        .demo h2 { text-align: center; margin-bottom: 40px; }
+        .demo-form { max-width: 600px; margin: 0 auto; }
+        .demo-form input, .demo-form select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; }
+        .demo-form button { width: 100%; padding: 15px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        
+        /* FAQ */
+        .faq { padding: 80px 0; }
+        .faq h2 { text-align: center; margin-bottom: 40px; }
+        .faq details { margin-bottom: 20px; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; }
+        .faq summary { font-weight: bold; cursor: pointer; }
+        
+        /* Footer */
+        footer { background: #1a1a2e; color: #fff; padding: 40px 0; text-align: center; }
+        footer a { color: #fff; margin: 0 15px; }
+        
+        /* Status */
+        .status { display: flex; justify-content: center; gap: 30px; padding: 20px; background: #f0f0f0; }
+        .status-item { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
+        .dot.error { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">TrendPulse</div>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#faq">FAQ</a>
+                <a href="https://github.com/trendpulse/trendpulse">GitHub</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Turn Market Noise Into Successful Games</h1>
+            <p>AI-driven market intelligence platform for game studios. Discover trends, generate concepts, build better games.</p>
+            <a href="#demo" class="cta">Try Demo</a>
+        </div>
+    </section>
+    
+    <section class="status">
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>API: Online</span>
+        </div>
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>OpenRouter: Connected</span>
+        </div>
+        <div class="status-item">
+            <span class="dot"></span>
+            <span>Gemini: Connected</span>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>AI Trend Detection</h3>
+                    <p>Monitor trends across social media, crypto, gaming, and adjacent industries to identify emerging opportunities.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Game Concept Generator</h3>
+                    <p>Generate marketable game ideas with audience analysis, monetization strategies, and risk assessment.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Multi-Provider LLM Routing</h3>
+                    <p>Automatic fallback between OpenRouter, Gemini, and other providers for reliability and cost optimization.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>RAG-Based Retrieval</h3>
+                    <p>Semantic search over trend data using vector embeddings for context-aware generation.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>CLI & API</h3>
+                    <p>Easy integration via REST API or CLI. Generate ideas from scripts, CI/CD pipelines, or directly.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Production Ready</h3>
+                    <p>Circuit breakers, rate limiting, retry logic, and observability built-in for high-load scenarios.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2>Try It Now</h2>
+            <form class="demo-form" id="generateForm">
+                <input type="text" name="theme" placeholder="Theme (e.g., ai tools, crypto, fantasy)" required>
+                <select name="platform">
+                    <option value="tiktok">TikTok</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="steam">Steam</option>
+                    <option value="console">Console</option>
+                </select>
+                <select name="region">
+                    <option value="global">Global</option>
+                    <option value="us">United States</option>
+                    <option value="eu">Europe</option>
+                    <option value="asia">Asia</option>
+                </select>
+                <select name="budget_mode">
+                    <option value="balanced">Balanced</option>
+                    <option value="low_cost">Low Cost</option>
+                </select>
+                <select name="task_type">
+                    <option value="creative">Creative</option>
+                    <option value="analysis">Analysis</option>
+                    <option value="reasoning">Reasoning</option>
+                </select>
+                <button type="submit">Generate Idea</button>
+            </form>
+            <div id="result" style="margin-top: 20px; padding: 20px; display: none;"></div>
+        </div>
+    </section>
+    
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2>FAQ</h2>
+            <details>
+                <summary>What is TrendPulse?</summary>
+                <p>TrendPulse is an AI-driven platform for game studios to discover market trends and generate game concepts. It helps turn market noise into successful games by analyzing trends across multiple industries.</p>
+            </details>
+            <details>
+                <summary>How does TrendPulse work?</summary>
+                <p>TrendPulse uses multi-provider LLM routing to generate game ideas based on market trends. It combines RAG-based retrieval with AI to create actionable game concepts.</p>
+            </details>
+            <details>
+                <summary>Is TrendPulse free to use?</summary>
+                <p>TrendPulse offers a free tier for development and testing. Production usage requires API keys from supported LLM providers (OpenRouter, Gemini).</p>
+            </details>
+            <details>
+                <summary>What providers does it support?</summary>
+                <p>TrendPulse supports OpenRouter (300+ models), Google Gemini, and can be extended to other providers. Automatic fallback ensures reliability.</p>
+            </details>
+            <details>
+                <summary>How do I integrate with my project?</summary>
+                <p>Use the REST API (POST /v1/generate) or CLI (trendpulse generate). Check the documentation for examples.</p>
+            </details>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 TrendPulse. All rights reserved.</p>
+            <div style="margin-top: 15px;">
+                <a href="https://github.com/trendpulse/trendpulse">GitHub</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#privacy">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const result = document.getElementById('result');
+            result.style.display = 'block';
+            result.textContent = 'Generating...';
+            
+            try {
+                const res = await fetch('/v1/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        theme: form.theme.value,
+                        platform: form.platform.value,
+                        region: form.region.value,
+                        budget_mode: form.budget_mode.value,
+                        task_type: form.task_type.value
+                    })
+                });
+                const data = await res.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (err) {
+                result.textContent = 'Error: ' + err.message;
+            }
+        });
+    </script>
+</body>
+</html>

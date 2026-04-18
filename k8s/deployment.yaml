@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trendpulse-api
+  labels:
+    app: trendpulse-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trendpulse-api
+  template:
+    metadata:
+      labels:
+        app: trendpulse-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/trendpulse/api:latest
+          ports:
+            - containerPort: 8100
+          command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8100"]
+          envFrom:
+            - configMapRef:
+                name: trendpulse-config
+            - secretRef:
+                name: trendpulse-secrets
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8100
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8100
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/.env
+              subPath: .env
+      volumes:
+        - name: app-config
+          configMap:
+            name: trendpulse-config-files

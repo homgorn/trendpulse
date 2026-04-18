@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /health
+Allow: /ready
+Allow: /metrics
+Allow: /v1/generate
+
+Disallow: /docs
+Disallow: /openapi.json
+Disallow: /redoc
+
+Sitemap: https://trendpulse.com/sitemap.xml
