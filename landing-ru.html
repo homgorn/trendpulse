@@ -117,6 +117,20 @@
         footer { background: #1a1a2e; color: #fff; padding: 40px 0; text-align: center; }
         footer a { color: #fff; margin: 0 15px; }
         
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header { background: #fff; border-bottom: 1px solid #e5e5e5; }
+        header .container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+        .logo { font-size: 24px; font-weight: bold; color: #2563eb; text-decoration: none; }
+        nav a { color: #666; text-decoration: none; margin-left: 20px; }
+        nav a:hover { color: #2563eb; }
+        
+        /* Buttons */
+        .btn-primary { background: #2563eb; color: #fff; padding: 10px 20px; border-radius: 6px; }
+        
+        /* Status */
         .status { display: flex; justify-content: center; gap: 30px; padding: 20px; background: #f0f0f0; }
         .status-item { display: flex; align-items: center; gap: 8px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
@@ -142,15 +156,15 @@
 <body>
     <header style="position: relative;">
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <div class="logo">TrendPulse</div>
+            <a href="./" class="logo">TrendPulse</a>
             <button id="mobileMenuBtn" style="display: none; background: none; border: none; font-size: 24px; cursor: pointer; padding: 10px;" aria-label="Toggle menu">☰</button>
             <nav id="mainNav">
                 <a href="#features">Возможности</a>
                 <a href="#demo">Демо</a>
                 <a href="#faq">FAQ</a>
-                <a href="docs/" style="color: #666;">Docs</a>
+                <a href="docs/">Docs</a>
                 <a href="investors/" style="color: #f59e0b; font-weight: bold;">Инвесторам</a>
-                <a href="index.html" style="background: #2563eb; color: #fff; padding: 8px 16px; border-radius: 6px;">EN</a>
+                <a href="index.html" class="btn-primary">EN</a>
             </nav>
         </div>
     </header>
@@ -529,13 +543,9 @@
         });
 
         // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mainNav = document.getElementById('mainNav');
-        if (mobileMenuBtn && mainNav) {
-            mobileMenuBtn.addEventListener('click', () => {
-                mainNav.classList.toggle('show');
-            });
-        }
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('open');
+        });
 
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -51,10 +51,26 @@
         .cta:hover { background: #d97706; }
         footer { background: #1a1a2e; color: white; padding: 40px; text-align: center; margin-top: 60px; }
         footer a { color: #f59e0b; text-decoration: none; }
+        
+        /* Top nav */
+        .top-nav { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 15px 0; }
+        .top-nav .container { display: flex; gap: 20px; align-items: center; }
+        .top-nav a { color: #2563eb; text-decoration: none; font-weight: 600; }
+        
         @media (max-width: 768px) { .hero-stats, .nav-grid, .doc-list { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
+    <nav class="top-nav">
+        <div class="container">
+            <a href="../">← Main Site</a>
+            <a href="pitch.html">Pitch</a>
+            <a href="financials.html">Financials</a>
+            <a href="roadmap.html">Roadmap</a>
+            <a href="metrics.html">Metrics</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
     <header>
         <div class="container">
             <h1>🏆 Investor Portal</h1>
