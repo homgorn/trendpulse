@@ -1,0 +1,35 @@
+# .cursorrules — Cursor IDE Context
+
+## Project: TrendPulse
+
+AI-driven market intelligence for gaming studios. Multi-provider LLM routing, RAG, circuit breaker.
+
+## Architecture
+
+- `src/trendpulse/api.py` — FastAPI app
+- `src/trendpulse/service.py` — Business logic
+- `src/trendpulse/core/llm/gateway.py` — LLM Gateway with circuit breaker
+- `src/trendpulse/core/llm/routing.py` — Model routing
+
+## Commands
+
+```bash
+make install   # pip install -e ".[dev]"
+make test      # pytest tests/
+make lint      # ruff check src/
+make run       # uvicorn api:app --reload
+```
+
+## Key Patterns
+
+- All configs via Pydantic Settings
+- Use `from trendpulse.schemas import *`
+- Circuit breaker in `core/llm/gateway.py`
+- Rate limiter in `rate_limiter.py`
+- Read AGENTS.md before code
+
+## Ignore
+
+- `data/`, `logs/`, `*.log`
+- `venv/`, `.venv/`
+- `.env` files
