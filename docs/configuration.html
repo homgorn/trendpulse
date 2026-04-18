@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration - TrendPulse Documentation</title>
+    <meta name="description" content="TrendPulse configuration guide. Environment variables, settings, options for LLM providers, rate limiting, and more.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/configuration.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        h3 { color: #333; margin: 25px 0 15px; font-size: 20px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #1a1a2e; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; padding: 0; }
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin-bottom: 10px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #f4f4f4; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>⚙️ Configuration</h1>
+            <p>Configure TrendPulse for your needs</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="installation.html">← Installation</a>
+            <a href="deployment.html">Deployment →</a>
+        </div>
+        
+        <h2>Environment Variables</h2>
+        
+        <h3>LLM Providers</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Required</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>OPENROUTER_API_KEY</code></td>
+                <td>Yes*</td>
+                <td>-</td>
+                <td>OpenRouter API key</td>
+            </tr>
+            <tr>
+                <td><code>GEMINI_API_KEY</code></td>
+                <td>Yes*</td>
+                <td>-</td>
+                <td>Google Gemini API key</td>
+            </tr>
+            <tr>
+                <td><code>OPENROUTER_BASE_URL</code></td>
+                <td>No</td>
+                <td>https://openrouter.ai/api/v1</td>
+                <td>OpenRouter endpoint</td>
+            </tr>
+            <tr>
+                <td><code>GEMINI_BASE_URL</code></td>
+                <td>No</td>
+                <td>https://generativelanguage.googleapis.com</td>
+                <td>Gemini endpoint</td>
+            </tr>
+        </table>
+        <p><em>* At least one provider required</em></p>
+        
+        <h3>Provider Settings</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>DEFAULT_PROVIDER</code></td>
+                <td>openrouter</td>
+                <td>Primary LLM provider</td>
+            </tr>
+            <tr>
+                <td><code>FALLBACK_PROVIDER</code></td>
+                <td>gemini</td>
+                <td>Fallback provider</td>
+            </tr>
+            <tr>
+                <td><code>DEFAULT_MODEL</code></td>
+                <td>openrouter/auto</td>
+                <td>Default model</td>
+            </tr>
+        </table>
+        
+        <h3>LLM Resilience</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>LLM_REQUEST_TIMEOUT_SECONDS</code></td>
+                <td>30</td>
+                <td>Request timeout</td>
+            </tr>
+            <tr>
+                <td><code>LLM_MAX_RETRIES</code></td>
+                <td>1</td>
+                <td>Max retry attempts</td>
+            </tr>
+            <tr>
+                <td><code>LLM_RETRY_BACKOFF_SECONDS</code></td>
+                <td>0.25</td>
+                <td>Initial backoff (exponential)</td>
+            </tr>
+            <tr>
+                <td><code>LLM_CIRCUIT_BREAKER_FAIL_THRESHOLD</code></td>
+                <td>3</td>
+                <td>Failures before circuit opens</td>
+            </tr>
+            <tr>
+                <td><code>LLM_CIRCUIT_BREAKER_OPEN_SECONDS</code></td>
+                <td>20</td>
+                <td>Circuit open duration</td>
+            </tr>
+        </table>
+        
+        <h3>Rate Limiting</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>RATE_LIMIT_REQUESTS</code></td>
+                <td>30</td>
+                <td>Requests per window</td>
+            </tr>
+            <tr>
+                <td><code>RATE_LIMIT_WINDOW_SECONDS</code></td>
+                <td>60</td>
+                <td>Window duration</td>
+            </tr>
+        </table>
+        
+        <h3>Observability</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>OTEL_ENABLED</code></td>
+                <td>false</td>
+                <td>Enable OpenTelemetry</td>
+            </tr>
+            <tr>
+                <td><code>OTEL_ENDPOINT</code></td>
+                <td>http://localhost:4317</td>
+                <td>OTel collector endpoint</td>
+            </tr>
+            <tr>
+                <td><code>LOG_LEVEL</code></td>
+                <td>INFO</td>
+                <td>Logging level</td>
+            </tr>
+        </table>
+        
+        <h3>Database (optional)</h3>
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>DATABASE_URL</code></td>
+                <td>-</td>
+                <td>Async database URL</td>
+            </tr>
+            <tr>
+                <td><code>DATABASE_POOL_SIZE</code></td>
+                <td>5</td>
+                <td>Connection pool size</td>
+            </tr>
+            <tr>
+                <td><code>DATABASE_MAX_OVERFLOW</code></td>
+                <td>10</td>
+                <td>Max overflow connections</td>
+            </tr>
+        </table>
+        
+        <h2>Configuration File</h2>
+        <p>Create <code>.env</code> in project root:</p>
+        <pre><code># LLM Providers
+OPENROUTER_API_KEY=sk-or-v1-...
+GEMINI_API_KEY=your-gemini-key
+
+# Provider Settings
+DEFAULT_PROVIDER=openrouter
+FALLBACK_PROVIDER=gemini
+DEFAULT_MODEL=openrouter/auto
+
+# Resilience
+LLM_REQUEST_TIMEOUT_SECONDS=30
+LLM_MAX_RETRIES=1
+LLM_CIRCUIT_BREAKER_FAIL_THRESHOLD=3
+LLM_CIRCUIT_BREAKER_OPEN_SECONDS=20
+
+# Rate Limiting
+RATE_LIMIT_REQUESTS=30
+RATE_LIMIT_WINDOW_SECONDS=60
+
+# Observability
+OTEL_ENABLED=false
+OTEL_ENDPOINT=http://localhost:4317
+LOG_LEVEL=INFO</code></pre>
+        
+        <h2>Programmatic Configuration</h2>
+        <pre><code>from trendpulse.config import settings
+
+# Access settings
+print(settings.default_provider)
+print(settings.llm_max_retries)
+
+# Override at runtime
+settings.llm_max_retries = 3</code></pre>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="installation.html">← Installation</a>
+            <a href="deployment.html">Deployment →</a>
+        </div>
+    </div>
+</body>
+</html>

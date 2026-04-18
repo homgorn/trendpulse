@@ -18,9 +18,14 @@
         "mainEntity": {
             "@type": "ItemList",
             "itemListElement": [
+                {"@type": "ListItem", "name": "Installation", "url": "installation.html"},
                 {"@type": "ListItem", "name": "Getting Started", "url": "getting-started.html"},
+                {"@type": "ListItem", "name": "Configuration", "url": "configuration.html"},
+                {"@type": "ListItem", "name": "Deployment", "url": "deployment.html"},
+                {"@type": "ListItem", "name": "Monitoring", "url": "monitoring.html"},
                 {"@type": "ListItem", "name": "API Reference", "url": "api-reference.html"},
                 {"@type": "ListItem", "name": "How To Use", "url": "how-to.html"},
+                {"@type": "ListItem", "name": "Troubleshooting", "url": "troubleshooting.html"},
                 {"@type": "ListItem", "name": "FAQ", "url": "faq.html"}
             ]
         }
@@ -63,16 +68,40 @@
     
     <div class="container">
         <div class="nav-grid">
+            <a href="installation.html" class="nav-card">
+                <div class="icon">📦</div>
+                <h2>Installation</h2>
+                <p>Install TrendPulse via pip, Docker, or Kubernetes. Requirements and setup.</p>
+            </a>
+            
             <a href="getting-started.html" class="nav-card">
                 <div class="icon">🚀</div>
                 <h2>Getting Started</h2>
-                <p>Installation, setup, and quick start guide. Get up and running in 5 minutes.</p>
+                <p>Quick start guide. Get up and running in 5 minutes.</p>
+            </a>
+            
+            <a href="configuration.html" class="nav-card">
+                <div class="icon">⚙️</div>
+                <h2>Configuration</h2>
+                <p>Environment variables, settings, and options for all components.</p>
+            </a>
+            
+            <a href="deployment.html" class="nav-card">
+                <div class="icon">☁️</div>
+                <h2>Deployment</h2>
+                <p>Deploy to production with Docker, Kubernetes, or cloud platforms.</p>
+            </a>
+            
+            <a href="monitoring.html" class="nav-card">
+                <div class="icon">📊</div>
+                <h2>Monitoring</h2>
+                <p>Prometheus metrics, Grafana dashboard, OpenTelemetry tracing.</p>
             </a>
             
             <a href="api-reference.html" class="nav-card">
                 <div class="icon">🔌</div>
                 <h2>API Reference</h2>
-                <p>Complete API documentation with endpoints, parameters, and examples.</p>
+                <p>Complete API documentation with endpoints and examples.</p>
             </a>
             
             <a href="how-to.html" class="nav-card">
@@ -81,10 +110,16 @@
                 <p>Practical guides and tutorials for common use cases.</p>
             </a>
             
+            <a href="troubleshooting.html" class="nav-card">
+                <div class="icon">🔧</div>
+                <h2>Troubleshooting</h2>
+                <p>Common errors, solutions, and debugging tips.</p>
+            </a>
+            
             <a href="faq.html" class="nav-card">
                 <div class="icon">❓</div>
                 <h2>FAQ</h2>
-                <p>Frequently asked questions and troubleshooting tips.</p>
+                <p>Frequently asked questions answered.</p>
             </a>
         </div>
         

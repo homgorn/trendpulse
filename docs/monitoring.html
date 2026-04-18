@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring - TrendPulse Documentation</title>
+    <meta name="description" content="TrendPulse monitoring guide. Prometheus metrics, Grafana dashboard, OpenTelemetry tracing, alerts.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/monitoring.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        h3 { color: #333; margin: 25px 0 15px; font-size: 20px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #1a1a2e; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; padding: 0; }
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin-bottom: 10px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #f4f4f4; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>📊 Monitoring</h1>
+            <p>Observability and metrics</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="deployment.html">← Deployment</a>
+            <a href="troubleshooting.html">Troubleshooting →</a>
+        </div>
+        
+        <h2>Prometheus Metrics</h2>
+        
+        <h3>Endpoint</h3>
+        <pre><code>GET /metrics</code></pre>
+        
+        <h3>Available Metrics</h3>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>trendpulse_requests_total</code></td>
+                <td>Counter</td>
+                <td>Total generate requests</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_requests_success_total</code></td>
+                <td>Counter</td>
+                <td>Successful requests</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_requests_error_total</code></td>
+                <td>Counter</td>
+                <td>Failed requests</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_llm_latency_ms_sum</code></td>
+                <td>Counter</td>
+                <td>LLM latency sum (ms)</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_llm_latency_ms_count</code></td>
+                <td>Counter</td>
+                <td>LLM latency observations</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_provider_{provider}_requests_total</code></td>
+                <td>Counter</td>
+                <td>Requests per provider</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_provider_{provider}_latency_ms_sum</code></td>
+                <td>Counter</td>
+                <td>Latency per provider</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_provider_{provider}_cost_usd_total</code></td>
+                <td>Counter</td>
+                <td>Estimated cost per provider</td>
+            </tr>
+            <tr>
+                <td><code>trendpulse_provider_{provider}_tokens_total</code></td>
+                <td>Counter</td>
+                <td>Tokens used per provider</td>
+            </tr>
+        </table>
+        
+        <h3>Example Query</h3>
+        <pre><code># Success rate
+rate(trendpulse_requests_success_total[5m]) / rate(trendpulse_requests_total[5m]) * 100
+
+# Average latency
+rate(trendpulse_llm_latency_ms_sum[5m]) / rate(trendpulse_llm_latency_ms_count[5m])
+
+# Requests per second
+rate(trendpulse_requests_total[5m])</code></pre>
+        
+        <h2>Grafana Dashboard</h2>
+        
+        <h3>Import Dashboard</h3>
+        <p>Import <code>monitoring/grafana-dashboard.json</code> in Grafana.</p>
+        
+        <h3>Dashboard Panels</h3>
+        <ul>
+            <li>Total Requests</li>
+            <li>Success/Failure Rate</li>
+            <li>Latency (Avg, P50, P95, P99)</li>
+            <li>Requests by Provider</li>
+            <li>Cost Estimation</li>
+            <li>Token Usage</li>
+        </ul>
+        
+        <h2>OpenTelemetry</h2>
+        
+        <h3>Enable Tracing</h3>
+        <pre><code>OTEL_ENABLED=true
+OTEL_ENDPOINT=http://localhost:4317</code></pre>
+        
+        <h3>Trace Context</h3>
+        <p>Pass <code>x-trace-id</code> header to track requests:</p>
+        <pre><code>curl -H "x-trace-id: my-custom-trace-123" \
+  http://localhost:8100/v1/generate \
+  -d '{"theme":"ai","platform":"mobile"}'</code></pre>
+        
+        <h2>Health Checks</h2>
+        
+        <h3>/health — Liveness</h3>
+        <pre><code>curl http://localhost:8100/health
+# {"status": "ok"}</code></pre>
+        
+        <h3>/ready — Readiness</h3>
+        <pre><code>curl http://localhost:8100/ready
+# {"status": "ready", "provider": "openrouter"}
+
+# Or if not configured
+# {"status": "not_ready", "reason": "no_providers_configured"}</code></pre>
+        
+        <h2>Alerting Rules</h2>
+        
+        <h3>High Error Rate</h3>
+        <pre><code>groups:
+- name: trendpulse
+  rules:
+  - alert: HighErrorRate
+    expr: rate(trendpulse_requests_error_total[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate on TrendPulse"</code></pre>
+        
+        <h3>High Latency</h3>
+        <pre><code>  - alert: HighLatency
+    expr: rate(trendpulse_llm_latency_ms_sum[5m]) / rate(trendpulse_llm_latency_ms_count[5m]) > 5000
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High latency on TrendPulse"</code></pre>
+        
+        <h2>Logging</h2>
+        
+        <h3>Log Format</h3>
+        <p>JSON format with trace_id:</p>
+        <pre><code>{"timestamp": "2026-04-18T10:30:00Z", "level": "INFO", "logger": "trendpulse.gateway", "trace_id": "abc-123", "message": "Success provider=openrouter"}</code></pre>
+        
+        <h3>Log Levels</h3>
+        <table>
+            <tr>
+                <th>Level</th>
+                <th>When</th>
+            </tr>
+            <tr>
+                <td>DEBUG</td>
+                <td>Detailed debug info</td>
+            </tr>
+            <tr>
+                <td>INFO</td>
+                <td>Normal operation</td>
+            </tr>
+            <tr>
+                <td>WARNING</td>
+                <td>Warnings (retries, circuit open)</td>
+            </tr>
+            <tr>
+                <td>ERROR</td>
+                <td>Errors (provider failures)</td>
+            </tr>
+        </table>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="deployment.html">← Deployment</a>
+            <a href="troubleshooting.html">Troubleshooting →</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment - TrendPulse Documentation</title>
+    <meta name="description" content="TrendPulse deployment guide. Docker, Kubernetes, cloud platforms, production best practices.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/deployment.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        h3 { color: #333; margin: 25px 0 15px; font-size: 20px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #1a1a2e; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; padding: 0; }
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin-bottom: 10px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🚀 Deployment</h1>
+            <p>Deploy TrendPulse to production</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="configuration.html">← Configuration</a>
+            <a href="monitoring.html">Monitoring →</a>
+        </div>
+        
+        <h2>Production Checklist</h2>
+        <ul>
+            <li>✅ Configure LLM provider API keys</li>
+            <li>✅ Set up environment variables</li>
+            <li>✅ Configure rate limiting</li>
+            <li>✅ Set up monitoring (Prometheus)</li>
+            <li>✅ Enable OpenTelemetry (optional)</li>
+            <li>✅ Configure logging</li>
+            <li>✅ Set up health checks</li>
+        </ul>
+        
+        <h2>Docker Production</h2>
+        
+        <h3>Build Optimized Image</h3>
+        <pre><code>docker build -t trendpulse:latest --target production .</code></pre>
+        
+        <h3>Run with Production Settings</h3>
+        <pre><code>docker run -d \
+  --name trendpulse \
+  -p 8100:8100 \
+  -e OPENROUTER_API_KEY=${OPENROUTER_API_KEY} \
+  -e GEMINI_API_KEY=${GEMINI_API_KEY} \
+  -e LOG_LEVEL=WARNING \
+  -e LLM_REQUEST_TIMEOUT_SECONDS=60 \
+  --restart unless-stopped \
+  trendpulse:latest</code></pre>
+        
+        <h3>Docker Compose Production</h3>
+        <pre><code>version: '3.8'
+services:
+  trendpulse:
+    build: .
+    ports:
+      - "8100:8100"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - LOG_LEVEL=WARNING
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3</code></pre>
+        
+        <h2>Kubernetes</h2>
+        
+        <h3>Deploy</h3>
+        <pre><code>kubectl apply -f k8s/</code></pre>
+        
+        <h3>Check Status</h3>
+        <pre><code>kubectl get pods -l app=trendpulse
+kubectl logs -l app=trendpulse</code></pre>
+        
+        <h3>Scale</h3>
+        <pre><code>kubectl scale deployment trendpulse --replicas=3</code></pre>
+        
+        <h3>HPA (Auto-scaling)</h3>
+        <pre><code>kubectl apply -f k8s/hpa.yaml</code></pre>
+        
+        <h2>Cloud Platforms</h2>
+        
+        <h3>AWS ECS</h3>
+        <pre><code># Using AWS CLI or CDK
+aws ecs create-cluster --cluster-name trendpulse
+aws ecs register-task-definition --cli-input-json file://task-definition.json</code></pre>
+        
+        <h3>Google Cloud Run</h3>
+        <pre><code>gcloud run deploy trendpulse \
+  --source . \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars OPENROUTER_API_KEY=$OPENROUTER_API_KEY</code></pre>
+        
+        <h3>Azure Container Apps</h3>
+        <pre><code>az containerapp create \
+  --name trendpulse \
+  --resource-group mygroup \
+  --environment myenv \
+  --image myregistry.azurecr.io/trendpulse:latest \
+  --cpu 0.5 --memory 1Gi</code></pre>
+        
+        <h2>Production Best Practices</h2>
+        
+        <div class="warning">
+            <strong>Security:</strong> Never commit API keys. Use secrets management (AWS Secrets Manager, HashiCorp Vault, etc.)
+        </div>
+        
+        <ul>
+            <li><strong>Use secrets</strong> — Store API keys in secrets manager</li>
+            <li><strong>Enable HTTPS</strong> — Use reverse proxy (nginx, traefik)</li>
+            <li><strong>Set up monitoring</strong> — Prometheus + Grafana</li>
+            <li><strong>Configure logging</strong> — Ship to centralized log system</li>
+            <li><strong>Set resource limits</strong> — CPU/Memory limits in containers</li>
+            <li><strong>Use health checks</strong> — /health and /ready endpoints</li>
+        </ul>
+        
+        <h2>Reverse Proxy (nginx)</h2>
+        <pre><code>server {
+    listen 80;
+    server_name api.trendpulse.com;
+    
+    location / {
+        proxy_pass http://localhost:8100;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}</code></pre>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="configuration.html">← Configuration</a>
+            <a href="monitoring.html">Monitoring →</a>
+        </div>
+    </div>
+</body>
+</html>

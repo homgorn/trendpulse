@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - TrendPulse Documentation</title>
+    <meta name="description" content="TrendPulse troubleshooting guide. Common errors, solutions, debugging tips, and FAQ.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://trendpulse.github.io/trendpulse/docs/troubleshooting.html">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 0; text-align: center; margin-bottom: 40px; }
+        h1 { font-size: 36px; margin-bottom: 10px; }
+        h2 { color: #2563eb; margin: 40px 0 20px; font-size: 28px; }
+        h3 { color: #333; margin: 25px 0 15px; font-size: 20px; }
+        p { margin-bottom: 15px; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #1a1a2e; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+        pre code { background: none; padding: 0; }
+        ul, ol { margin: 15px 0 15px 30px; }
+        li { margin-bottom: 10px; }
+        .nav { margin-bottom: 40px; padding: 15px; background: #f9f9f9; border-radius: 8px; }
+        .nav a { color: #2563eb; margin-right: 20px; text-decoration: none; }
+        details { margin-bottom: 20px; border: 1px solid #e5e5e5; border-radius: 8px; padding: 20px; cursor: pointer; }
+        summary { font-weight: bold; font-size: 18px; cursor: pointer; }
+        .error-box { background: #fee; border-left: 4px solid #dc2626; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+        .solution-box { background: #efe; border-left: 4px solid #22c55e; padding: 15px; margin: 15px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔧 Troubleshooting</h1>
+            <p>Solve common issues</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="monitoring.html">← Monitoring</a>
+        </div>
+        
+        <h2>Quick Diagnostics</h2>
+        <pre><code># Check health
+curl http://localhost:8100/health
+
+# Check readiness
+curl http://localhost:8100/ready
+
+# Check metrics
+curl http://localhost:8100/metrics
+
+# Test API
+curl -X POST http://localhost:8100/v1/generate \
+  -H "Content-Type: application/json" \
+  -d '{"theme":"test","platform":"mobile"}'</code></pre>
+        
+        <h2>Common Errors</h2>
+        
+        <details>
+            <summary>400 VALIDATION_ERROR - Invalid request</summary>
+            <div class="error-box">
+                <code>{"code": "VALIDATION_ERROR", "message": "..."}</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong> Check request parameters. Ensure:
+                <ul>
+                    <li>theme: 2-500 characters</li>
+                    <li>platform: tiktok, mobile, steam, console</li>
+                    <li>budget_mode: balanced or low_cost</li>
+                    <li>task_type: creative, analysis, reasoning</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>400 PROVIDER_ERROR - LLM provider error</summary>
+            <div class="error-box">
+                <code>{"code": "PROVIDER_ERROR", "message": "OpenRouter error: ..."}</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong>
+                <ul>
+                    <li>Check API key is valid</li>
+                    <li>Check provider status (OpenRouter status page)</li>
+                    <li>Check network connectivity</li>
+                    <li>Try fallback provider</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>400 PROVIDER_TIMEOUT - Request timed out</summary>
+            <div class="error-box">
+                <code>{"code": "PROVIDER_TIMEOUT", "message": "Provider timeout provider=openrouter"}</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong>
+                <ul>
+                    <li>Increase LLM_REQUEST_TIMEOUT_SECONDS</li>
+                    <li>Check network latency</li>
+                    <li>Try faster model (low_cost mode)</li>
+                    <li>Check provider status</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>429 RATE_LIMIT_EXCEEDED</summary>
+            <div class="error-box">
+                <code>{"detail": "Rate limit exceeded"}</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong>
+                <ul>
+                    <li>Wait 60 seconds (default window)</li>
+                    <li>Increase RATE_LIMIT_REQUESTS in config</li>
+                    <li>Implement client-side rate limiting</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>400 CONFIGURATION_ERROR - No providers configured</summary>
+            <div class="error-box">
+                <code>{"code": "CONFIGURATION_ERROR", "message": "No LLM providers configured"}</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong>
+                <ul>
+                    <li>Set OPENROUTER_API_KEY or GEMINI_API_KEY</li>
+                    <li>Check .env file is in correct location</li>
+                    <li>Restart application after config change</li>
+                </ul>
+            </div>
+        </details>
+        
+        <details>
+            <summary>All providers failed</summary>
+            <div class="error-box">
+                <code>ProviderError: All providers failed: ...</code>
+            </div>
+            <div class="solution-box">
+                <strong>Solution:</strong>
+                <ol>
+                    <li>Check /ready endpoint for provider status</li>
+                    <li>Verify API keys are valid</li>
+                    <li>Check network connectivity to providers</li>
+                    <li>Check provider status pages</li>
+                    <li>Try with single provider first</li>
+                </ol>
+            </div>
+        </details>
+        
+        <h2>Debugging Tips</h2>
+        
+        <h3>Enable Debug Logging</h3>
+        <pre><code>LOG_LEVEL=DEBUG</code></pre>
+        
+        <h3>Check Circuit Breaker Status</h3>
+        <p>Circuit opens after 3 failures for 20 seconds. Check logs:</p>
+        <pre><code>grep "Circuit opened" logs/trendpulse.log</code></pre>
+        
+        <h3>Trace Requests</h3>
+        <pre><code>curl -H "x-trace-id: my-debug-trace" \
+  http://localhost:8100/v1/generate \
+  -d '{"theme":"test","platform":"mobile"}'</code></pre>
+        
+        <h2>Performance Issues</h2>
+        
+        <details>
+            <summary>Slow responses</summary>
+            <ul>
+                <li>Check LLM latency with /ready ping test</li>
+                <li>Use low_cost mode for faster models</li>
+                <li>Increase timeout if network is slow</li>
+                <li>Check for provider rate limits</li>
+            </ul>
+        </details>
+        
+        <details>
+            <summary>High memory usage</summary>
+            <ul>
+                <li>Check for memory leaks in long-running process</li>
+                <li>Monitor Python garbage collection</li>
+                <li>Check rate limiter cleanup (memory leak fix applied)</li>
+                <li>Restart container periodically</li>
+            </ul>
+        </details>
+        
+        <details>
+            <summary>High CPU usage</summary>
+            <ul>
+                <li>Check for infinite loops in retries</li>
+                <li>Monitor concurrent requests</li>
+                <li>Check for blocking I/O</li>
+                <li>Use async properly</li>
+            </ul>
+        </details>
+        
+        <h2>Need More Help?</h2>
+        <ul>
+            <li><a href="https://github.com/trendpulse/trendpulse/issues">Open an Issue</a></li>
+            <li><a href="mailto:contact@trendpulse.com">Contact Support</a></li>
+            <li><a href="faq.html">Check FAQ</a></li>
+        </ul>
+        
+        <div class="nav">
+            <a href="index.html">← Back to Docs</a>
+            <a href="monitoring.html">← Monitoring</a>
+        </div>
+    </div>
+</body>
+</html>
