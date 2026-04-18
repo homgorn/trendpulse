@@ -9,7 +9,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please send an email to security@trendpulse.com with the following details:
+If you discover a security vulnerability, please send an email to refertur.net@gmail.com with the following details:
 
 - Description of the vulnerability
 - Steps to reproduce the issue
@@ -132,6 +132,6 @@ This project follows security best practices. For enterprise deployments:
 
 ## Contact
 
-For security-related questions, contact: security@trendpulse.com
+For security-related questions, contact: refertur.net@gmail.com
 
 For general issues, use GitHub Issues: https://github.com/trendpulse/trendpulse/issues
