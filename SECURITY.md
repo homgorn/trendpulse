@@ -134,4 +134,4 @@ This project follows security best practices. For enterprise deployments:
 
 For security-related questions, contact: refertur.net@gmail.com
 
-For general issues, use GitHub Issues: https://github.com/trendpulse/trendpulse/issues
+For general issues, use GitHub Issues: https://github.com/homgorn/trendpulse/issues

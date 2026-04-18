@@ -6,7 +6,7 @@
 
 ```bash
 # Clone and setup
-git clone https://github.com/trendpulse/trendpulse.git
+git clone https://github.com/homgorn/trendpulse.git
 cd trendpulse
 
 # Create virtual environment
@@ -252,5 +252,5 @@ locust -f tests/load_test.py --host=http://127.0.0.1:8100
 
 ## Support
 
-- GitHub Issues: https://github.com/trendpulse/trendpulse/issues
+- GitHub Issues: https://github.com/homgorn/trendpulse/issues
 - Documentation: https://trendpulse.com/docs

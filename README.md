@@ -118,7 +118,7 @@ twitter:description: Turn market noise into successful games
 
 ```bash
 # Clone repository
-git clone https://github.com/trendpulse/trendpulse.git
+git clone https://github.com/homgorn/trendpulse.git
 cd trendpulse
 
 # Create virtual environment
