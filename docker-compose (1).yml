@@ -1,0 +1,21 @@
+services:
+  trendpulse-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trendpulse-api
+    ports:
+      - "8011:8011"
+    environment:
+      LOG_LEVEL: INFO
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      DEFAULT_PROVIDER: ${DEFAULT_PROVIDER:-openrouter}
+      FALLBACK_PROVIDER: ${FALLBACK_PROVIDER:-gemini}
+      DEFAULT_MODEL: ${DEFAULT_MODEL:-openrouter/auto}
+      LLM_REQUEST_TIMEOUT_SECONDS: ${LLM_REQUEST_TIMEOUT_SECONDS:-20}
+      LLM_MAX_RETRIES: ${LLM_MAX_RETRIES:-1}
+      LLM_RETRY_BACKOFF_SECONDS: ${LLM_RETRY_BACKOFF_SECONDS:-0.5}
+      LLM_CIRCUIT_BREAKER_FAIL_THRESHOLD: ${LLM_CIRCUIT_BREAKER_FAIL_THRESHOLD:-3}
+      LLM_CIRCUIT_BREAKER_OPEN_SECONDS: ${LLM_CIRCUIT_BREAKER_OPEN_SECONDS:-30}
+    restart: unless-stopped
